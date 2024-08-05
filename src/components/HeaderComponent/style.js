@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { Row, Input } from "antd";
+import { Row, Input, Button } from "antd";
 
 const { Search } = Input;
+
 export const WrapperHeader = styled(Row)`
   padding: 16px 120px;
   background-color: rgb(26, 148, 255);
@@ -16,9 +17,20 @@ export const WrapperTextHeader = styled.span`
 
 export const WrapperSearchHeader = styled.div`
   display: flex;
-  width: 100%
+  width: 100%;
 `;
 
 export const SearchWrapper = styled(Search)`
-  flex: 1; 
+  flex: 1;
+`;
+
+export const WrapperHeaderAccount = styled.div`
+  display: flex;
+  justify-content: right;
+`;
+
+export const HeaderButton = styled(Button)`
+  max-width: 120px;
+  color: #fff;
+  font-size: 14px;
 `;

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Col, Button } from 'antd'
-import { UserOutlined } from '@ant-design/icons';
-import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper } from './style'
-
+import { Col } from 'antd'
+import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper, WrapperHeaderAccount, HeaderButton } from './style'
+import UndertakeComponent from '../UndertakeComponent/UndertakeComponent';
 
 const HeaderComponent = () => {
     return (
@@ -19,14 +19,19 @@ const HeaderComponent = () => {
                     </WrapperSearchHeader>
                 </Col>
                 <Col span={6}>
-                    <div>
-                        <Button type="text" block>
+                    <WrapperHeaderAccount>
+                        <HeaderButton type="text" block>
                             <UserOutlined />
                             <span>Tài khoản</span>
-                        </Button>
-                    </div>
+                        </HeaderButton>
+                        <HeaderButton type="text" block>
+                            <ShoppingCartOutlined />
+                            <span>Giỏ hàng</span>
+                        </HeaderButton>
+                    </WrapperHeaderAccount>
                 </Col>
             </WrapperHeader>
+            <UndertakeComponent />
         </div>
     )
 }
