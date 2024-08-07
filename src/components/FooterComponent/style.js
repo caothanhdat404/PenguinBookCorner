@@ -31,3 +31,9 @@ export const NavFooter = styled.a`
     color: rgb(26, 148, 255)
   }
 `
+
+export const Payment = styled.div`
+  width: 302px;
+  height: 68px;
+  margin-bottom: 20px
+`

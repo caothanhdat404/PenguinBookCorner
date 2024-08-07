@@ -1,5 +1,5 @@
 import React from 'react'
-import { WrapperFooter, TagFooter, Tag, NavFooter } from './style'
+import { WrapperFooter, TagFooter, Tag, NavFooter, Payment } from './style'
 import { EnvironmentOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
 
 
@@ -43,6 +43,12 @@ const FooterComponent = () => {
           <Tag>
             Phương tiện thanh toán
           </Tag>
+          <Payment>
+            <img src='https://bizweb.dktcdn.net/100/363/455/themes/918830/assets/payment_method.png?1704690471681' alt='payments'></img>
+          </Payment>
+          <Payment>
+            <img src='https://bizweb.dktcdn.net/100/363/455/themes/918830/assets/bocongthuong.png?1704690471681' alt=''></img>
+          </Payment>
         </TagFooter>
     </WrapperFooter>
   )
