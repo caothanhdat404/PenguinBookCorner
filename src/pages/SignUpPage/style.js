@@ -59,7 +59,7 @@ export const WrapperBodyAuth = styled.div`
 
 export const BodyAuth = styled.div`
     width: 416px;
-    height: 432px;
+    height: 500px;
     background-color: white;
     border-radius: 4px;
     padding: 0 30px;
@@ -73,8 +73,28 @@ export const OtherWay = styled.div`
     height: 78px;
 `
 
+export const SignUpByOtherWay = styled.div`
+    font-size: 14px;
+    width: 100%;
+    height: 38px;
+    margin: 5px;
+    color: rgba(0,0,0,.87);
+    padding: 0 8px 0 2px;
+    border: 1px solid rgba(0,0,0,.26);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+
+    &:hover {
+        cursor: pointer;
+        opacity: 0.85;
+    }
+`
+
+
 export const Policy = styled.div`
-    padding: 0 25px;
+    padding: 30px 25px;
     font-size: 12px;
     text-align: center;
     
@@ -87,8 +107,8 @@ export const Policy = styled.div`
 export const ChangeState = styled.div`
     font-size: 14px;
     color: rgba(0, 0, 0, .26);
-    padding-top: 30px;
     text-align: center;
+    padding: 0 0 22px 0;
 
     a {
         color: rgb(26, 148, 255);

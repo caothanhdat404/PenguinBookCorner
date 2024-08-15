@@ -1,5 +1,7 @@
 import React from 'react'
-import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, Policy, ChangeState } from './style'
+import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, Policy, ChangeState } from './style'
+import { FacebookFilled, GoogleCircleFilled } from '@ant-design/icons'
+
 import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
@@ -19,7 +21,9 @@ const SignUpPage = () => {
       <WrapperBodyAuth>
         <BodyAuth>
           <div style={{ fontSize: '20px', padding: '22px 0px' }}>Đăng ký</div>
-          <InputForm />
+          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="abc@gmail.com"/>
+          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="Password" type="password"/>
+          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="Re-enter Password" type="password"/>
           <ButtonComponent
             bordered={false}
             size={40}
@@ -40,15 +44,24 @@ const SignUpPage = () => {
             }}
           ></ButtonComponent>
           <OtherWay>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between',fontSize: '12px', color: 'rgba(0,0,0,.26)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(0,0,0,.26)' }}>
               <div style={{ width: '170px', height: '1px', backgroundColor: 'rgba(0,0,0,.26)' }}></div>
               <div>hoặc</div>
               <div style={{ width: '170px', height: '1px', backgroundColor: 'rgba(0,0,0,.26)' }}></div>
             </div>
-            <div></div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '30px' }}>
+              <SignUpByOtherWay>
+                <FacebookFilled style={{ color: 'blue', marginRight: '8px' }} />
+                <div>Facebook</div>
+              </SignUpByOtherWay>
+              <SignUpByOtherWay>
+                <GoogleCircleFilled style={{ color: 'red', marginRight: '8px' }} />
+                <div>Google</div>
+              </SignUpByOtherWay>
+            </div>
           </OtherWay>
-          <Policy>Bằng việc đăng ký, bạn đã đồng ý với chúng tôi về<br></br><a href='/'>Điều khoản dịch vụ</a> & <a href=''>Chính sách bảo mật</a></Policy>
-          <ChangeState>Bạn đã có tài khoản <a href='/'>Đăng nhập</a></ChangeState>
+          <Policy>Bằng việc đăng ký, bạn đã đồng ý với chúng tôi về<br></br><a href='/'>Điều khoản dịch vụ</a> & <a href='/'>Chính sách bảo mật</a></Policy>
+          <ChangeState>Bạn đã có tài khoản? <a href='/'>Đăng nhập</a></ChangeState>
         </BodyAuth>
       </WrapperBodyAuth>
       <FooterComponent />
