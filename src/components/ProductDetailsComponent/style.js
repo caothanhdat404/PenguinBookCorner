@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Col } from 'antd'
+import { Col, InputNumber } from 'antd'
 
 export const WrapperSmallImgCol = styled(Col)`
     display: flex;
@@ -55,4 +55,32 @@ export const AddressCustomer = styled.div`
             cursor: pointer;
         }
     }
+`
+
+export const QualityProduct = styled.div`
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    border-radius: 4px;
+    width: 120px;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    
+    button {
+        border: none;
+        background: transparent;
+    }
+`
+
+export const WrapperInputNumber = styled(InputNumber)`
+    &.ant-input-number.ant-input-number-sm {
+        width: 60px;
+        border-top: none;
+        border-bottom: none;
+        
+        &.ant-input-number-handler-wrap {
+            display: none;
+        }
+    }
+
 `
