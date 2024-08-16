@@ -7,7 +7,7 @@ function SampleNextArrow(props) {
     return (
         <div
             className={className}
-            style={{ ...style, marginRight: '30px' }}
+            style={{ ...style, right: '10px' }}
             onClick={onClick}
         />
     );
@@ -18,7 +18,7 @@ function SamplePrevArrow(props) {
     return (
         <div
             className={className}
-            style={{ ...style, marginLeft: '30px', zIndex: '1'}}
+            style={{ ...style, left: '10px', zIndex: '1'}}
             onClick={onClick}
         />
     );
@@ -29,8 +29,8 @@ const SliderComponent = ({ arrImages }) => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToShow: 2,
+        slidesToScroll: 2,
         autoplay: true,
         autoplaySpeed: 2000,
 
