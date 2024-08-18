@@ -1,36 +1,20 @@
 import { Row, Col, Image } from 'antd'
 import React from 'react'
-import imageProduct from '../../assets/images/fullproductImg.webp'
-import imageSmallProduct from '../../assets/images/smallproductImg.webp'
-import { WrapperSmallImgCol, WrapperNameProduct, TextSell, PriceProduct, PriceTextProduct, AddressCustomer, QualityProduct, WrapperInputNumber } from './style'
+import SliderComponent from '../SliderComponent/SliderComponent'
+import { WrapperNameProduct, TextSell, PriceProduct, PriceTextProduct, AddressCustomer, QualityProduct, WrapperInputNumber } from './style'
 import { StarFilled, MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import imageProduct from '../../assets/images/fullproductImg.webp'
 import ButtonComponent from '../ButtonComponent/ButtonComponent'
+import bookmark from '../../assets/images/bookmark.webp'
+import bookmarks from '../../assets/images/bookmarks.webp'
+import tikibookmark from '../../assets/images/tikibookmark.webp'
+import wabookmark from '../../assets/images/wabookmark.webp'
 
 const ProductDetailsComponent = () => {
     return (
-        <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px' }}>
+        <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px' }} >
             <Col span={10} style={{borderRight: '1px solid #e5e5e5', paddingRight: '8px'}}>
-                <Image src={imageProduct} alt='image product' preview={false} />
-                <Row style={{ paddingTop: '10px' }}>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                    <WrapperSmallImgCol span={4}>
-                        <Image src={imageSmallProduct} alt='image small product' preview={false} height={64} width={64} />
-                    </WrapperSmallImgCol>
-                </Row>
+                <SliderComponent arrImages={[imageProduct, imageProduct, bookmark, bookmarks, tikibookmark, wabookmark]} option={1}/>
             </Col>
             <Col span={14} style={{ paddingLeft: '10px' }}>
                 <WrapperNameProduct>Combo Trọn Bộ CONAN ĐẶC SẮC Conan và Tổ chức Áo Đen (Tập 1, 2) + Conan Tuyển Tập Đặc Biệt - FBI Selection + Conan Tuyển Tập Fan Bình Chọn (Tập 1, 2) + Conan Những Câu Chuyện Lãng Mạn (Tập 1,2,3) - Bộ 8 Cuốn/ Tặng kèm Postcard Green Life</WrapperNameProduct>

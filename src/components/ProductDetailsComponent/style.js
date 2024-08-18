@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 import { Col, InputNumber } from 'antd'
 
-export const WrapperSmallImgCol = styled(Col)`
-    display: flex;
-    justify-content: center;
-`;
 
 export const WrapperNameProduct = styled.h1`
     margin: 0 0 4px;
