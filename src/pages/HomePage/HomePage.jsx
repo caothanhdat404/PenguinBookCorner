@@ -13,9 +13,14 @@ const HomePage = () => {
     return (
         <WrapperHomePage>
             <WrapperSlider>
-                <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} />
+                <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} option={0} />
             </WrapperSlider>
-            <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: "#fff", width: '100%', borderRadius: '4px' }}>
+            <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: "#fff", width: '100%', borderRadius: '4px', padding: '20px' }}>
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
+                <CardComponent />
                 <CardComponent />
             </div>
         </WrapperHomePage>
