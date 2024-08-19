@@ -1,7 +1,8 @@
 import styled from 'styled-components'
+import { Row } from 'antd'
 
-export const WrapperHomePage = styled.div`
-    padding: 10px 120px 0;
+export const WrapperHomePage = styled(Row)`
+    padding: 10px 64px 0;
     background-color: #efefef;
     height: 1000px;
 `
@@ -25,4 +26,18 @@ export const WrapperCardProduct = styled.div`
     padding: 20px;
     border-radius: 4px; 
     box-sizing: border-box;
+`
+
+export const WrapperNavbar = styled.div`
+    width: 95%;
+    height: 600px;
+    background-color: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    position: sticky;
+    left: 0;
+    top: 0;
 `
