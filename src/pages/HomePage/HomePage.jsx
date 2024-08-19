@@ -1,7 +1,7 @@
 import React from "react";
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import CardComponent from '../../components/CardComponent/CardComponent'
-import { WrapperHomePage, WrapperSlider } from './style'
+import { WrapperHomePage, WrapperSlider, WrapperCardProduct } from './style'
 import slider1 from '../../assets/images/slider1.webp'
 import slider2 from '../../assets/images/slider2.webp'
 import slider3 from '../../assets/images/slider3.webp'
@@ -15,14 +15,14 @@ const HomePage = () => {
             <WrapperSlider>
                 <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} option={0} />
             </WrapperSlider>
-            <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '20px', backgroundColor: "#fff", width: '100%', borderRadius: '4px', padding: '20px' }}>
+            <WrapperCardProduct>
                 <CardComponent />
                 <CardComponent />
                 <CardComponent />
                 <CardComponent />
                 <CardComponent />
                 <CardComponent />
-            </div>
+            </WrapperCardProduct>
         </WrapperHomePage>
     );
 }

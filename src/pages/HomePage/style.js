@@ -14,3 +14,15 @@ export const WrapperSlider = styled.div`
     border-radius: 4px;
     box-sizing: border-box;
 `
+
+export const WrapperCardProduct = styled.div`
+    width: 100%;
+    display: flex; 
+    align-items: center;
+    gap: 10px; 
+    background-color: #fff; 
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 4px; 
+    box-sizing: border-box;
+`
