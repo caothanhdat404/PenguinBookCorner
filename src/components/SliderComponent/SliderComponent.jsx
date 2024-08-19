@@ -1,7 +1,7 @@
 import React from 'react'
 import Slider from "react-slick";
 import { Image } from 'antd'
-import { WrapperDots } from './style'
+import { WrapperDots, WrapperDotsImage } from './style'
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -36,25 +36,34 @@ const SliderComponent = ({ arrImages, option }) => {
         autoplaySpeed: 2000,
 
         nextArrow: <SampleNextArrow />,
-        prevArrow: <SamplePrevArrow />
+        prevArrow: <SamplePrevArrow />,
+
+        appendDots: dots => (
+            <div>
+                <WrapperDots style={{ margin: "0px" }}> {dots} </WrapperDots>
+            </div>
+        ),
+        customPaging: i => (
+            <div></div>
+        )
     };
 
     const settings2 = {
         appendDots: dots => (
             <div
-              style={{
-                width: "100%",
-                bottom: "-15%",
-              }}
+                style={{
+                    width: "100%",
+                    bottom: "-15%",
+                }}
             >
-              <WrapperDots> {dots} </WrapperDots>
+                <WrapperDotsImage> {dots} </WrapperDotsImage>
             </div>
-          ),
+        ),
 
         customPaging: function (i) {
             return (
                 <a>
-                    <img src={arrImages[i]} alt='' style={{ height: '80px'}} />
+                    <img src={arrImages[i]} alt='' style={{ height: '80px' }} />
                 </a>
             );
         },
