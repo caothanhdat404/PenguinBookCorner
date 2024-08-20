@@ -6,6 +6,8 @@ import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 
+const SpanFooter = [6, 6, 6, 6]
+
 const SignUpPage = () => {
   return (
     <div>
@@ -21,9 +23,9 @@ const SignUpPage = () => {
       <WrapperBodyAuth>
         <BodyAuth>
           <div style={{ fontSize: '20px', padding: '22px 0px' }}>Đăng ký</div>
-          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="abc@gmail.com"/>
-          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="Password" type="password"/>
-          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="Re-enter Password" type="password"/>
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" />
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Password" type="password" />
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Re-enter Password" type="password" />
           <ButtonComponent
             bordered={false}
             size={40}
@@ -64,7 +66,7 @@ const SignUpPage = () => {
           <ChangeState>Bạn đã có tài khoản? <a href='/'>Đăng nhập</a></ChangeState>
         </BodyAuth>
       </WrapperBodyAuth>
-      <FooterComponent />
+      <FooterComponent span={SpanFooter} />
     </div>
   )
 }

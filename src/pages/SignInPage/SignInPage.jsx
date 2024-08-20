@@ -6,6 +6,8 @@ import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 
+const SpanFooter = [6, 6, 6, 6]
+
 const SignInPage = () => {
   return (
     <div>
@@ -66,7 +68,7 @@ const SignInPage = () => {
           <ChangeState>Bạn chưa có tài khoản? <a href='/'>Tạo tài khoản</a></ChangeState>
         </BodyAuth>
       </WrapperBodyAuth>
-      <FooterComponent />
+      <FooterComponent span={SpanFooter}/>
     </div>
   )
 }
