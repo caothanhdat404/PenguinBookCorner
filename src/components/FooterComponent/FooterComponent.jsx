@@ -3,10 +3,11 @@ import { WrapperFooter, TagFooter, Tag, NavFooter, Payment } from './style'
 import { EnvironmentOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons'
 
 
-const FooterComponent = () => {
+const FooterComponent = (props) => {
+  const { span } = props
   return (
     <WrapperFooter>
-        <TagFooter span={6}>
+        <TagFooter span={span[0]}>
           <Tag>
             Liên hệ
           </Tag>
@@ -23,7 +24,7 @@ const FooterComponent = () => {
             0777242105
           </NavFooter>
         </TagFooter>
-        <TagFooter span={6}>
+        <TagFooter span={span[1]}>
           <Tag>
             Giới thiệu
           </Tag>
@@ -31,7 +32,7 @@ const FooterComponent = () => {
           <NavFooter>Hệ thống hiệu sách</NavFooter>
           <NavFooter>Tuyển dụng</NavFooter>
         </TagFooter>
-        <TagFooter span={6}>
+        <TagFooter span={span[2]}>
           <Tag>
             Chính sách
           </Tag>
@@ -39,7 +40,7 @@ const FooterComponent = () => {
           <NavFooter>Chính sách đổi trả/hoàn tiền</NavFooter>
           <NavFooter>Chính sách thanh toan/vận chuyển</NavFooter>
         </TagFooter>
-        <TagFooter span={6}>
+        <TagFooter span={span[3]}>
           <Tag>
             Phương tiện thanh toán
           </Tag>
