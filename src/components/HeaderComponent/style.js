@@ -4,6 +4,7 @@ import { Row, Input, Button } from "antd";
 const { Search } = Input;
 
 export const WrapperHeader = styled(Row)`
+  width: 100%;
   padding: 16px 120px;
   background-color: rgb(26, 148, 255);
 `;
