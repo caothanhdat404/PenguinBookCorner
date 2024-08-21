@@ -3,6 +3,7 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import SignInPage from "../pages/SignInPage/SignInPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
+import ProductPage from '../pages/ProductPage/ProductPage';
 
 export const routes = [
     {
@@ -23,6 +24,11 @@ export const routes = [
     {
         path: '/product-detail',
         page: ProductDetailsPage,
+        isShowHeader: true
+    },
+    {
+        path: '/product/:category',
+        page: ProductPage,
         isShowHeader: true
     },
     {
