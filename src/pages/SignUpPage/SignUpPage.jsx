@@ -1,6 +1,7 @@
 import React from 'react'
-import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, Policy, ChangeState } from './style'
-import { FacebookFilled, GoogleCircleFilled } from '@ant-design/icons'
+import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, Policy, ChangeState } from './style'
+import facebook from '../../assets/svg/facebook.svg'
+import google from '../../assets/svg/google.svg'
 
 import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
@@ -53,11 +54,15 @@ const SignUpPage = () => {
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '30px' }}>
               <SignUpByOtherWay>
-                <FacebookFilled style={{ color: 'blue', marginRight: '8px' }} />
+                <WrapperBrandIcon>
+                  <BrandIcon src={facebook}></BrandIcon>
+                </WrapperBrandIcon>
                 <div>Facebook</div>
               </SignUpByOtherWay>
               <SignUpByOtherWay>
-                <GoogleCircleFilled style={{ color: 'red', marginRight: '8px' }} />
+                <WrapperBrandIcon>
+                  <BrandIcon src={google}></BrandIcon>
+                </WrapperBrandIcon>
                 <div>Google</div>
               </SignUpByOtherWay>
             </div>

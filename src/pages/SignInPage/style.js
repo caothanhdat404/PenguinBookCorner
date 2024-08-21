@@ -108,6 +108,17 @@ export const SignUpByOtherWay = styled.div`
     }
 `
 
+export const WrapperBrandIcon = styled.div`
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+`
+
+export const BrandIcon = styled.img`
+    width: 100%;
+    height: 100%;
+`
+
 export const ChangeState = styled.div`
     font-size: 14px;
     color: rgba(0, 0, 0, .26);

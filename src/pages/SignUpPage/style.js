@@ -92,6 +92,17 @@ export const SignUpByOtherWay = styled.div`
     }
 `
 
+export const WrapperBrandIcon = styled.div`
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+`
+
+export const BrandIcon = styled.img`
+    width: 100%;
+    height: 100%;
+`
+
 
 export const Policy = styled.div`
     padding: 30px 25px;
