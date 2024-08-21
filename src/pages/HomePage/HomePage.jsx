@@ -4,48 +4,66 @@ import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import CardComponent from '../../components/CardComponent/CardComponent'
 import NavbarComponent from "../../components/NavbarComponent/NavbarComponent"
 import { WrapperHomePage, WrapperSlider, WrapperCardProduct, WrapperFooter, WrapperNavbar, WrapperSubNavbar } from './style'
+
 import slider1 from '../../assets/images/slider1.webp'
 import slider2 from '../../assets/images/slider2.webp'
 import slider3 from '../../assets/images/slider3.webp'
 import slider4 from '../../assets/images/slider4.jpg'
 import slider5 from '../../assets/images/slider5.jpg'
 import slider6 from '../../assets/images/slider6.jpg'
+
+import { ReactComponent as Literature } from '../../assets/svg/literature.svg'
+import { ReactComponent as Science } from '../../assets/svg/science.svg'
+import { ReactComponent as Children } from '../../assets/svg/children.svg'
+import { ReactComponent as Econnomy } from '../../assets/svg/economy.svg'
+import { ReactComponent as Skill } from '../../assets/svg/skill.svg'
+import { ReactComponent as Comic } from '../../assets/svg/comic.svg'
+import { ReactComponent as Textbook } from '../../assets/svg/textbook.svg'
+import { ReactComponent as Stationery } from '../../assets/svg/stationery.svg'
+
 import FooterComponent from "../../components/FooterComponent/FooterComponent";
 
 const NavbarItems = [
     {
         key: '1',
         label: 'VĂN HỌC',
+        icon: <Literature />
     },
     {
         key: '2',
         label: 'KHOA HỌC',
+        icon: <Science />
     },
     {
         key: '3',
         label: 'THIẾU NHI',
+        icon: <Children />
     },
     {
         key: '4',
         label: 'KINH TẾ',
+        icon: <Econnomy />
     },
     {
         key: '5',
         label: 'KỸ NĂNG',
+        icon: <Skill />
     },
     {
         key: '6',
         label: 'TRUYỆN TRANH',
+        icon: <Comic />
     },
     {
         key: '7',
         label: 'SGK/STK',
+        icon: <Textbook />
     },
     {
         key: 'grp',
         type: 'group',
         children: [
-            { key: '13', label: 'VĂN PHÒNG PHẨM' },
+            { key: '13', label: 'VĂN PHÒNG PHẨM', icon: <Stationery /> },
             { type: 'divider' },
             { key: '14', label: 'KHÁC' },
         ],
