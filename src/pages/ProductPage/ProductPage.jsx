@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { Col } from 'antd'
+import { Row, Col, Breadcrumb } from 'antd'
+import { HomeOutlined } from '@ant-design/icons';
 import CardComponent from '../../components/CardComponent/CardComponent'
 import NavbarComponent from "../../components/NavbarComponent/NavbarComponent"
-import { WrapperProductPage, WrapperCategory, WrapperCardProduct, WrapperFooter, WrapperNavbar, WrapperSubNavbar } from './style'
+import { WrapperProductPage, WrapperBreadcrumd, WrapperCategory, WrapperCardProduct, WrapperFooter, WrapperNavbar, WrapperSubNavbar } from './style'
 
 import { ReactComponent as Literature } from '../../assets/svg/literature.svg'
 import { ReactComponent as Science } from '../../assets/svg/science.svg'
@@ -20,46 +22,54 @@ const NavbarItems = [
     {
         key: '1',
         label: 'VĂN HỌC',
-        icon: <Literature />
+        icon: <Literature />,
+        path: 'product/van-hoc'
     },
     {
         key: '2',
         label: 'KHOA HỌC',
-        icon: <Science />
+        icon: <Science />,
+        path: 'product/khoa-hoc'
     },
     {
         key: '3',
         label: 'THIẾU NHI',
-        icon: <Children />
+        icon: <Children />,
+        path: 'product/thieu-nhi'
     },
     {
         key: '4',
         label: 'KINH TẾ',
-        icon: <Econnomy />
+        icon: <Econnomy />,
+        path: 'product/kinh-te'
     },
     {
         key: '5',
         label: 'KỸ NĂNG',
-        icon: <Skill />
+        icon: <Skill />,
+        path: 'product/ky-nang'
     },
     {
         key: '6',
         label: 'TRUYỆN TRANH',
-        icon: <Comic />
+        icon: <Comic />,
+        path: 'product/truyen-tranh'
     },
     {
         key: '7',
         label: 'SGK/STK',
-        icon: <Textbook />
+        icon: <Textbook />,
+        path: 'product/sach-giao-khoa'
     },
     {
-        key: 'grp',
-        type: 'group',
-        children: [
-            { key: '13', label: 'VĂN PHÒNG PHẨM', icon: <Stationery /> },
-            { type: 'divider' },
-            { key: '14', label: 'KHÁC' },
-        ],
+        key: '8',
+        label: 'VĂN PHÒNG PHẨM',
+        icon: <Stationery />,
+        path: 'product/van-phong-pham'
+    },
+    {
+        key: '9',
+        label: 'KHÁC',
     },
 ];
 
@@ -76,12 +86,22 @@ const NavbarSubItems = [
 
 const SpanFooter = [5, 5, 7, 7]
 
+function itemRender(currentRoute, params, items, paths) {
+    const isLast = currentRoute?.path === items[items.length - 1]?.path;
+
+    return isLast ? (
+        <span>{currentRoute.title}</span>
+    ) : (
+        <Link to={`/${paths.join("/")}`}>{currentRoute.title}</Link>
+    );
+}
+
 const ProductPage = () => {
     const { category } = useParams();
 
     const categoryNames = {
         'van-hoc': 'Văn Học',
-        'khoa hoc': 'Khoa Học',
+        'khoa-hoc': 'Khoa Học',
         'thieu-nhi': 'Thiếu Nhi',
         'kinh-te': 'Kinh Tế',
         'ky-nang': ' Kỹ Năng',
@@ -94,34 +114,51 @@ const ProductPage = () => {
 
     return (
         <WrapperProductPage>
-            <Col span={4}>
-                <div style={{ position: 'sticky', left: 0, top: '116px' }}>
-                    <WrapperNavbar>
-                        <div>Danh mục</div>
-                        <NavbarComponent items={NavbarItems} />
-                    </WrapperNavbar>
-                    <WrapperSubNavbar>
-                        <div>Tiện ích</div>
-                        <NavbarComponent items={NavbarSubItems} />
-                    </WrapperSubNavbar>
-                </div>
-            </Col>
-            <Col span={20}>
-                <WrapperCategory>
-                    <h1>{categoryDisplay}</h1>
-                </WrapperCategory>
-                <WrapperCardProduct>
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                </WrapperCardProduct>
-                <WrapperFooter>
-                    <FooterComponent span={SpanFooter} />
-                </WrapperFooter>
-            </Col>
+            <WrapperBreadcrumd>
+                <Breadcrumb
+                    separator=">"
+                    itemRender={itemRender}
+                    items={[
+                        {
+                            path: '/',
+                            title: <HomeOutlined />,
+                        },
+                        {
+                            title: categoryDisplay,
+                        },
+                    ]}
+                />
+            </WrapperBreadcrumd>
+            <Row>
+                <Col span={4}>
+                    <div style={{ position: 'sticky', left: 0, top: '116px' }}>
+                        <WrapperNavbar>
+                            <div>Danh mục</div>
+                            <NavbarComponent items={NavbarItems} />
+                        </WrapperNavbar>
+                        <WrapperSubNavbar>
+                            <div>Tiện ích</div>
+                            <NavbarComponent items={NavbarSubItems} />
+                        </WrapperSubNavbar>
+                    </div>
+                </Col>
+                <Col span={20}>
+                    <WrapperCategory>
+                        <h1>{categoryDisplay}</h1>
+                    </WrapperCategory>
+                    <WrapperCardProduct>
+                        <CardComponent />
+                        <CardComponent />
+                        <CardComponent />
+                        <CardComponent />
+                        <CardComponent />
+                        <CardComponent />
+                    </WrapperCardProduct>
+                    <WrapperFooter>
+                        <FooterComponent span={SpanFooter} />
+                    </WrapperFooter>
+                </Col>
+            </Row>
         </WrapperProductPage>
     );
 }

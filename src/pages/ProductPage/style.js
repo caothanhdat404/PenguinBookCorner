@@ -1,10 +1,17 @@
 import styled from 'styled-components'
-import { Row } from 'antd'
 
-export const WrapperProductPage = styled(Row)`
+export const WrapperProductPage = styled.div`
     padding: 116px 64px 0;
     background-color: #efefef;
-    height: 1200px;
+    height: 850px;
+`
+
+export const WrapperBreadcrumd = styled.div`
+    width: 100%;
+    height: 53px;
+    padding: 16px 0;
+    background-color: #efefef;
+    box-sizing: border-box;
 `
 
 export const WrapperCategory = styled.div`
