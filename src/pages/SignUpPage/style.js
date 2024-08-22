@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom'
 
 
 export const WrapperHeaderAuth = styled.div`
@@ -26,16 +27,13 @@ export const HeaderLogo = styled.div`
     align-items: center
 `
 
-export const Logo = styled.div`
+export const Logo = styled(Link)`
     font-size: 20px;
     margin-right: 8px;
     background-color: rgb(26, 148, 255);
     color: white;
     padding: 8px;
-
-    &:hover {
-        cursor: pointer;
-    }
+    text-decoration: none;
 `
 
 export const NeedHelp = styled.div`

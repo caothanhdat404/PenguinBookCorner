@@ -15,7 +15,7 @@ const SignUpPage = () => {
       <WrapperHeaderAuth>
         <HeaderAuth>
           <HeaderLogo>
-            <Logo>PEIGUIN BOOK CORNER</Logo>
+            <Logo to='/'>PEIGUIN BOOK CORNER</Logo>
             <div style={{ fontSize: '24px' }}>Đăng ký</div>
           </HeaderLogo>
           <NeedHelp>Bạn cần giúp đỡ?</NeedHelp>

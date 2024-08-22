@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Col } from 'antd'
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper, WrapperHeaderAccount, HeaderButton } from './style'
@@ -16,7 +17,9 @@ const HeaderComponent = () => {
             <WrapperHeader>
                 <Col span={6}>
                     <WrapperTextHeader>
-                        PENGUINBOOKCORNER
+                        <Link to='/'>
+                            PENGUINBOOKCORNER
+                        </Link>
                     </WrapperTextHeader>
                 </Col>
                 <Col span={12}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, Help, OtherWay, SignUpByOtherWay, ChangeState } from './style'
+import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, Help, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
 import google from '../../assets/svg/google.svg'
 
@@ -15,7 +15,7 @@ const SignInPage = () => {
       <WrapperHeaderAuth>
         <HeaderAuth>
           <HeaderLogo>
-            <Logo>PEIGUIN BOOK CORNER</Logo>
+            <Logo to='/'>PEIGUIN BOOK CORNER</Logo>
             <div style={{ fontSize: '24px' }}>Đăng nhập</div>
           </HeaderLogo>
           <NeedHelp>Bạn cần giúp đỡ?</NeedHelp>
@@ -24,8 +24,8 @@ const SignInPage = () => {
       <WrapperBodyAuth>
         <BodyAuth>
           <div style={{ fontSize: '20px', padding: '22px 0px' }}>Đăng nhập</div>
-          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="abc@gmail.com"/>
-          <InputForm style={{marginBottom: '10px', height: '40px'}} placeholder="Password" type="password"/>
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" />
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Password" type="password" />
           <ButtonComponent
             bordered={false}
             size={40}
@@ -56,7 +56,7 @@ const SignInPage = () => {
               <div style={{ width: '170px', height: '1px', backgroundColor: 'rgba(0,0,0,.26)' }}></div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '30px' }}>
-            <SignUpByOtherWay>
+              <SignUpByOtherWay>
                 <WrapperBrandIcon>
                   <BrandIcon src={facebook}></BrandIcon>
                 </WrapperBrandIcon>
@@ -73,7 +73,7 @@ const SignInPage = () => {
           <ChangeState>Bạn chưa có tài khoản? <a href='/'>Tạo tài khoản</a></ChangeState>
         </BodyAuth>
       </WrapperBodyAuth>
-      <FooterComponent span={SpanFooter}/>
+      <FooterComponent span={SpanFooter} />
     </div>
   )
 }
