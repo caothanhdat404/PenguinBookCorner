@@ -23,50 +23,59 @@ import { ReactComponent as Stationery } from '../../assets/svg/stationery.svg'
 
 import FooterComponent from "../../components/FooterComponent/FooterComponent";
 
+
 const NavbarItems = [
     {
         key: '1',
         label: 'VĂN HỌC',
-        icon: <Literature />
+        icon: <Literature />,
+        path: 'product/van-hoc'
     },
     {
         key: '2',
         label: 'KHOA HỌC',
-        icon: <Science />
+        icon: <Science />,
+        path: 'product/khoa-hoc'
     },
     {
         key: '3',
         label: 'THIẾU NHI',
-        icon: <Children />
+        icon: <Children />,
+        path: 'product/thieu-nhi'
     },
     {
         key: '4',
         label: 'KINH TẾ',
-        icon: <Econnomy />
+        icon: <Econnomy />,
+        path: 'product/kinh-te'
     },
     {
         key: '5',
         label: 'KỸ NĂNG',
-        icon: <Skill />
+        icon: <Skill />,
+        path: 'product/ky-nang'
     },
     {
         key: '6',
         label: 'TRUYỆN TRANH',
-        icon: <Comic />
+        icon: <Comic />,
+        path: 'product/truyen-tranh'
     },
     {
         key: '7',
         label: 'SGK/STK',
-        icon: <Textbook />
+        icon: <Textbook />,
+        path: 'product/sach-giao-khoa'
     },
     {
-        key: 'grp',
-        type: 'group',
-        children: [
-            { key: '13', label: 'VĂN PHÒNG PHẨM', icon: <Stationery /> },
-            { type: 'divider' },
-            { key: '14', label: 'KHÁC' },
-        ],
+        key: '8',
+        label: 'VĂN PHÒNG PHẨM',
+        icon: <Stationery />,
+        path: 'product/van-phong-pham'
+    },
+    {
+        key: '9',
+        label: 'KHÁC',
     },
 ];
 
