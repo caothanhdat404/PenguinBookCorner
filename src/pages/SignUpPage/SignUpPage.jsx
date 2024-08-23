@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, Policy, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
 import google from '../../assets/svg/google.svg'
@@ -68,7 +69,7 @@ const SignUpPage = () => {
             </div>
           </OtherWay>
           <Policy>Bằng việc đăng ký, bạn đã đồng ý với chúng tôi về<br></br><a href='/'>Điều khoản dịch vụ</a> & <a href='/'>Chính sách bảo mật</a></Policy>
-          <ChangeState>Bạn đã có tài khoản? <a href='/'>Đăng nhập</a></ChangeState>
+          <ChangeState>Bạn đã có tài khoản? <Link to='/sign-in'>Đăng nhập</Link></ChangeState>
         </BodyAuth>
       </WrapperBodyAuth>
       <FooterComponent span={SpanFooter} />
