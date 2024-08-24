@@ -1,5 +1,7 @@
 import React from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, Help, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
 import google from '../../assets/svg/google.svg'
@@ -11,6 +13,18 @@ import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 const SpanFooter = [6, 6, 6, 6]
 
 const SignInPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleOnChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+  const handleOnChangePassword = (e) => {
+    setPassword(e.target.value)
+  }
+
   return (
     <div>
       <WrapperHeaderAuth>
@@ -25,9 +39,16 @@ const SignInPage = () => {
       <WrapperBodyAuth>
         <BodyAuth>
           <div style={{ fontSize: '20px', padding: '22px 0px' }}>Đăng nhập</div>
-          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" />
-          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Password" type="password" />
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnChangeEmail} />
+          <div style={{ position: 'relative', marginBottom: '10px' }}>
+            <span style={{ zIndex: 100, position: 'absolute', top: '15px', right: '8px' }}
+              onClick={() => setIsShowPassword(!isShowPassword)}>
+              {isShowPassword ? (<EyeFilled />) : (<EyeInvisibleFilled />)}
+            </span>
+            <InputForm style={{ height: '40px' }} placeholder="Password" type={isShowPassword ? "text" : "password"} value={password} onChange={handleOnChangePassword} />
+          </div>
           <ButtonComponent
+            disabled={(email==='' || password==='') ? true : false}
             bordered={false}
             size={40}
             styleButton={{

@@ -1,5 +1,7 @@
 import React from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, Policy, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
 import google from '../../assets/svg/google.svg'
@@ -10,7 +12,26 @@ import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 
 const SpanFooter = [6, 6, 6, 6]
 
+
+
 const SignUpPage = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false)
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
+  const handleOnChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
+  const handleOnChangePassword = (e) => {
+    setPassword(e.target.value)
+  }
+  const handleOnChangeConfirmPassword = (e) => {
+    setConfirmPassword(e.target.value)
+  }
+
   return (
     <div>
       <WrapperHeaderAuth>
@@ -25,17 +46,30 @@ const SignUpPage = () => {
       <WrapperBodyAuth>
         <BodyAuth>
           <div style={{ fontSize: '20px', padding: '22px 0px' }}>Đăng ký</div>
-          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" />
-          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Password" type="password" />
-          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="Re-enter Password" type="password" />
+          <InputForm style={{ marginBottom: '10px', height: '40px' }} placeholder="abc@gmail.com" value={email} onChange={handleOnChangeEmail} />
+          <div style={{ position: 'relative', marginBottom: '10px' }}>
+            <span style={{ zIndex: 10, position: 'absolute', top: '15px', right: '8px' }}
+              onClick={() => setIsShowPassword(!isShowPassword)}>
+              {isShowPassword ? (<EyeFilled />) : (<EyeInvisibleFilled />)}
+            </span>
+            <InputForm style={{ height: '40px' }} placeholder="Password" type={isShowPassword ? "text" : "password"} value={password} onChange={handleOnChangePassword} />
+          </div>
+          <div style={{ position: 'relative' }}>
+            <span style={{ zIndex: 10, position: 'absolute', top: '15px', right: '8px' }}
+              onClick={() => setIsShowConfirmPassword(!isShowConfirmPassword)}>
+              {isShowConfirmPassword ? (<EyeFilled />) : (<EyeInvisibleFilled />)}
+            </span>
+            <InputForm style={{ height: '40px' }} placeholder="Re-enter Password" type={isShowConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={handleOnChangeConfirmPassword} />
+          </div>
           <ButtonComponent
+            disabled={(email==='' || password==='' || confirmPassword==='') ? true : false}
             bordered={false}
             size={40}
             styleButton={{
               background: 'rgb(26, 148, 255)',
               height: '40px',
               width: '100%',
-              margin: '30px 0',
+              margin: '20px 0 30px',
               border: 'none',
               borderRadius: '4px',
               textAlign: 'center'
