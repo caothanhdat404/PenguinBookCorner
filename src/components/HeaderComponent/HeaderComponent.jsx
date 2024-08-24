@@ -30,8 +30,10 @@ const HeaderComponent = () => {
                 <Col span={6}>
                     <WrapperHeaderAccount>
                         <HeaderButton type="text" block>
-                            <UserOutlined />
-                            <span>Tài khoản</span>
+                            <Link to='/sign-in'>
+                                <UserOutlined />
+                                <span>Tài khoản</span>
+                            </Link>
                         </HeaderButton>
                         <HeaderButton type="text" block>
                             <ShoppingCartOutlined />
