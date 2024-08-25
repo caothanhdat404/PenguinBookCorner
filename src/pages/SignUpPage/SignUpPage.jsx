@@ -9,6 +9,7 @@ import google from '../../assets/svg/google.svg'
 import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
+import * as message from '../../components/Message/Message'
 
 const SpanFooter = [6, 6, 6, 6]
 
