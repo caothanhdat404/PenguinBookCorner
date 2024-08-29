@@ -10,9 +10,14 @@ import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import * as message from '../../components/Message/Message'
+import Loading from '../../components/LoadingComponent/Loading'
+
+import { useMutationHook } from '../../hooks/useMutationHook'
+
+import * as UserService from '../../services/UserService'
+
 
 const SpanFooter = [6, 6, 6, 6]
-
 
 
 const SignUpPage = () => {
@@ -32,6 +37,21 @@ const SignUpPage = () => {
   const handleOnChangeConfirmPassword = (e) => {
     setConfirmPassword(e.target.value)
   }
+
+  const mutation = useMutationHook(
+    data => UserService.signupUser(data)
+  )
+
+  const { data, isPending } = mutation
+
+  const handleSignUp = () => {
+    mutation.mutate({
+      email,
+      password,
+      confirmPassword
+    })
+  }
+
 
   return (
     <div>
@@ -62,26 +82,29 @@ const SignUpPage = () => {
             </span>
             <InputForm style={{ height: '40px' }} placeholder="Re-enter Password" type={isShowConfirmPassword ? "text" : "password"} value={confirmPassword} onChange={handleOnChangeConfirmPassword} />
           </div>
-          <ButtonComponent
-            disabled={(email==='' || password==='' || confirmPassword==='') ? true : false}
-            bordered={false}
-            size={40}
-            styleButton={{
-              background: 'rgb(26, 148, 255)',
-              height: '40px',
-              width: '100%',
-              margin: '20px 0 30px',
-              border: 'none',
-              borderRadius: '4px',
-              textAlign: 'center'
-            }}
-            textButton={'Đăng ký'}
-            styleTextButton={{
-              color: '#fff',
-              fontSize: '16px',
-              fontWeight: '700',
-            }}
-          ></ButtonComponent>
+          {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+          <Loading isLoading={isPending}>
+            <ButtonComponent
+              disabled={email === '' || password === '' || confirmPassword === ''}
+              onClick={handleSignUp}
+              size={40}
+              styleButton={{
+                background: 'rgb(26, 148, 255)',
+                height: '40px',
+                width: '100%',
+                margin: '20px 0 30px',
+                border: 'none',
+                borderRadius: '4px',
+                textAlign: 'center'
+              }}
+              textButton={'Đăng ký'}
+              styleTextButton={{
+                color: '#fff',
+                fontSize: '16px',
+                fontWeight: '700',
+              }}
+            ></ButtonComponent>
+          </Loading>
           <OtherWay>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'rgba(0,0,0,.26)' }}>
               <div style={{ width: '170px', height: '1px', backgroundColor: 'rgba(0,0,0,.26)' }}></div>

@@ -9,6 +9,9 @@ import google from '../../assets/svg/google.svg'
 import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
+import * as UserService from '../../services/UserService'
+import { useMutationHook } from '../../hooks/useMutationHook'
+import Loading from '../../components/LoadingComponent/Loading'
 
 const SpanFooter = [6, 6, 6, 6]
 
@@ -23,6 +26,19 @@ const SignInPage = () => {
   }
   const handleOnChangePassword = (e) => {
     setPassword(e.target.value)
+  }
+
+  const mutation = useMutationHook(
+    data => UserService.loginUser(data)
+  )
+
+  const { data, isPending } = mutation
+
+  const handleSignIn = () => {
+    mutation.mutate({
+      email,
+      password
+    })
   }
 
   return (
@@ -47,26 +63,29 @@ const SignInPage = () => {
             </span>
             <InputForm style={{ height: '40px' }} placeholder="Password" type={isShowPassword ? "text" : "password"} value={password} onChange={handleOnChangePassword} />
           </div>
-          <ButtonComponent
-            disabled={(email==='' || password==='') ? true : false}
-            bordered={false}
-            size={40}
-            styleButton={{
-              background: 'rgb(26, 148, 255)',
-              height: '40px',
-              width: '100%',
-              marginTop: '30px',
-              border: 'none',
-              borderRadius: '4px',
-              textAlign: 'center'
-            }}
-            textButton={'Đăng nhập'}
-            styleTextButton={{
-              color: '#fff',
-              fontSize: '16px',
-              fontWeight: '700',
-            }}
-          ></ButtonComponent>
+          {data?.status === 'ERR' && <span style={{ color: 'red' }}>{data?.message}</span>}
+          <Loading isLoading={isPending}>
+            <ButtonComponent
+              disabled={email === '' || password === ''}
+              onClick={handleSignIn}
+              size={40}
+              styleButton={{
+                background: 'rgb(26, 148, 255)',
+                height: '40px',
+                width: '100%',
+                marginTop: '30px',
+                border: 'none',
+                borderRadius: '4px',
+                textAlign: 'center'
+              }}
+              textButton={'Đăng nhập'}
+              styleTextButton={{
+                color: '#fff',
+                fontSize: '16px',
+                fontWeight: '700',
+              }}
+            ></ButtonComponent>
+          </Loading>
           <Help>
             <div>Quên mật khẩu</div>
             <div>Đăng nhập với SMS</div>
