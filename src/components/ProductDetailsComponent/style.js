@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Col, InputNumber } from 'antd'
+import { InputNumber } from 'antd'
 
 
 export const WrapperNameProduct = styled.h1`
