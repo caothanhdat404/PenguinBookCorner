@@ -1,4 +1,4 @@
-import { Row, Col, Image } from 'antd'
+import { Row, Col } from 'antd'
 import React from 'react'
 import SliderComponent from '../SliderComponent/SliderComponent'
 import { WrapperNameProduct, TextSell, PriceProduct, PriceTextProduct, AddressCustomer, QualityProduct, WrapperInputNumber } from './style'
@@ -10,11 +10,17 @@ import bookmarks from '../../assets/images/bookmarks.webp'
 import tikibookmark from '../../assets/images/tikibookmark.webp'
 import wabookmark from '../../assets/images/wabookmark.webp'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { increment, decrement } from '../../redux/counter/counterSlice';
+
 const ProductDetailsComponent = () => {
+    const dispatch = useDispatch();
+    const count = useSelector((state) => state.counter.value);
+
     return (
         <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px' }} >
-            <Col span={10} style={{borderRight: '1px solid #e5e5e5', paddingRight: '8px'}}>
-                <SliderComponent arrImages={[imageProduct, imageProduct, bookmark, bookmarks, tikibookmark, wabookmark]} option={1}/>
+            <Col span={10} style={{ borderRight: '1px solid #e5e5e5', paddingRight: '8px' }}>
+                <SliderComponent arrImages={[imageProduct, imageProduct, bookmark, bookmarks, tikibookmark, wabookmark]} option={1} />
             </Col>
             <Col span={14} style={{ paddingLeft: '10px' }}>
                 <WrapperNameProduct>Combo Trọn Bộ CONAN ĐẶC SẮC Conan và Tổ chức Áo Đen (Tập 1, 2) + Conan Tuyển Tập Đặc Biệt - FBI Selection + Conan Tuyển Tập Fan Bình Chọn (Tập 1, 2) + Conan Những Câu Chuyện Lãng Mạn (Tập 1,2,3) - Bộ 8 Cuốn/ Tặng kèm Postcard Green Life</WrapperNameProduct>
@@ -36,11 +42,11 @@ const ProductDetailsComponent = () => {
                     <div style={{ margin: '10px 0 20px 0', paddingTop: '10px', borderTop: '1px solid #e5e5e5' }}>
                         <div>Số lượng</div>
                         <QualityProduct>
-                            <button>
+                            <button onClick={() => dispatch(decrement())}>
                                 <MinusOutlined style={{ color: "#000", fontSize: "20px" }} />
                             </button>
-                            <WrapperInputNumber defaultValue={1} size='small' />
-                            <button>
+                            <WrapperInputNumber value={count} size='small' readOnly />
+                            <button onClick={() => dispatch(increment())}>
                                 <PlusOutlined style={{ color: "#000", fontSize: "20px" }} />
                             </button>
                         </QualityProduct>
