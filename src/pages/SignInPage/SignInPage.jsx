@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { jwtDecode } from "jwt-decode"
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, Help, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
@@ -9,9 +11,13 @@ import google from '../../assets/svg/google.svg'
 import FooterComponent from '../../components/FooterComponent/FooterComponent'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
-import * as UserService from '../../services/UserService'
-import { useMutationHook } from '../../hooks/useMutationHook'
 import Loading from '../../components/LoadingComponent/Loading'
+
+import { useMutationHook } from '../../hooks/useMutationHook'
+
+import * as UserService from '../../services/UserService'
+
+import { updateUser } from '../../redux/user/userSlice'
 
 const SpanFooter = [6, 6, 6, 6]
 
@@ -28,17 +34,38 @@ const SignInPage = () => {
     setPassword(e.target.value)
   }
 
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
   const mutation = useMutationHook(
     data => UserService.loginUser(data)
   )
 
-  const { data, isPending } = mutation
+  const { data, isPending, isSuccess } = mutation
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/')
+      localStorage.setItem('access_token', JSON.stringify(data?.access_token))
+      if (data?.access_token) {
+        const decoded = jwtDecode(data?.access_token)
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, data?.access_token)
+        }
+      }
+    }
+  }, [isSuccess])
 
   const handleSignIn = () => {
     mutation.mutate({
       email,
       password
     })
+  }
+
+  const handleGetDetailsUser = async (id, token) => {
+    const res = await UserService.getDetailsUser(id, token)
+    dispatch(updateUser({...res?.data, access_token: token}))
   }
 
   return (
