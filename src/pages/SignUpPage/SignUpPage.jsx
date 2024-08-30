@@ -1,6 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, Policy, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
@@ -38,11 +38,22 @@ const SignUpPage = () => {
     setConfirmPassword(e.target.value)
   }
 
+  const navigate = useNavigate()
+
   const mutation = useMutationHook(
     data => UserService.signupUser(data)
   )
 
-  const { data, isPending } = mutation
+  const { data, isPending, isSuccess, isError } = mutation
+
+  useEffect(() => {
+    if(isSuccess) {
+      message.success()
+      navigate('/sign-in')
+    } else if (isError) {
+      message.error()
+    }
+  }, [isSuccess, isError])
 
   const handleSignUp = () => {
     mutation.mutate({
