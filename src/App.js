@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode"
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
 import DefaultComponent from "./components/DefaultComponent/DefaultComponent";
@@ -8,13 +8,21 @@ import * as UserService from './services/UserService'
 import { updateUser } from './redux/user/userSlice'
 
 import { isJsonString } from "./utils"
+import Loading from "./components/LoadingComponent/Loading";
 
 function App() {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
+      setIsLoading(true)
       const { storageData, decoded } = handleDecoded()
       if (decoded?.id) {
         handleGetDetailsUser(decoded?.id, storageData)
       }
+      setIsLoading(false)
+
   }, [])
 
 
@@ -30,8 +38,6 @@ function App() {
   }, function (error) {
     return Promise.reject(error)
   })
-
-  const dispatch = useDispatch()
 
   const handleDecoded = () => {
     let storageData = localStorage.getItem('access_token')
@@ -50,25 +56,28 @@ function App() {
 
   return (
     <div>
-      <Router>
-        <Routes>
-          {routes.map((route) => {
-            const Page = route.page;
-            const Layout = route.isShowHeader ? DefaultComponent : Fragment;
-            return (
-              <Route
-                key = {route.path}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page />
-                  </Layout>
-                }
-              />
-            );
-          })}
-        </Routes>
-      </Router>
+      <Loading isLoading={isLoading}>
+        <Router>
+          <Routes>
+            {routes.map((route) => {
+              const Page = route.page;
+              const isPermission = !route.isPrivate || user.isAdmin
+              const Layout = route.isShowHeader ? DefaultComponent : Fragment;
+              return (
+                <Route
+                  key = {route.path}
+                  path={isPermission && typeof route.path === 'string' ? route.path : undefined}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              );
+            })}
+          </Routes>
+        </Router>
+      </Loading>
     </div>
   );
 }
