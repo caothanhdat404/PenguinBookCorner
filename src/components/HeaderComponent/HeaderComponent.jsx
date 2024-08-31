@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Col } from 'antd'
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper, WrapperHeaderAccount, HeaderButton, StyleTippy, WrapperUserOption, UserOption } from './style'
@@ -11,15 +11,28 @@ import { resetUser } from '../../redux/user/userSlice'
 
 const HeaderComponent = () => {
     const user = useSelector((state) => state.user)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
+    const [userName, setUserName] = useState('')
+
+    const handleSignIn = () => {
+        navigate('/sign-in')
+    }
 
     const handleLogout = async () => {
         setLoading(true)
         await UserService.logoutUser()
         dispatch(resetUser())
         setLoading(false)
+        navigate('/')
     }
+
+    useEffect(() => {
+        setLoading(true)
+        setUserName(user?.name)
+        setLoading(false)
+    })
 
     return (
         <div style={{
@@ -45,11 +58,11 @@ const HeaderComponent = () => {
                 <Col span={6}>
                     <WrapperHeaderAccount>
                         <Loading isLoading={loading}>
-                            {user?.name ?
+                            {user?.access_token ?
                                 <StyleTippy
                                     content={
                                         <WrapperUserOption>
-                                            <UserOption>Thông tin người dùng</UserOption>
+                                            <UserOption onClick={() => navigate('/profile')}>Thông tin người dùng</UserOption>
                                             <UserOption onClick={handleLogout}>Đăng xuất</UserOption>
                                         </WrapperUserOption>
                                     }
@@ -64,18 +77,17 @@ const HeaderComponent = () => {
                                             textOverflow: 'ellipsis'
                                         }}>
 
-                                            {user.name}
+                                            {userName?.length ? userName : user?.email}
                                         </div>
                                     </HeaderButton>
                                 </StyleTippy>
 
                                 :
-                                <Link to='sign-in'>
-                                    <HeaderButton type="text" block>
-                                        <UserOutlined />
-                                        <div>Tài khoản</div>
-                                    </HeaderButton>
-                                </Link>}
+                                <HeaderButton type="text" block onClick={handleSignIn}>
+                                    <UserOutlined />
+                                    <div>Tài khoản</div>
+                                </HeaderButton>
+                            }
                         </Loading>
                         <HeaderButton type="text" block>
                             <ShoppingCartOutlined />
