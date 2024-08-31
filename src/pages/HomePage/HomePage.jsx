@@ -22,7 +22,9 @@ import { ReactComponent as Textbook } from '../../assets/svg/textbook.svg'
 import { ReactComponent as Stationery } from '../../assets/svg/stationery.svg'
 
 import FooterComponent from "../../components/FooterComponent/FooterComponent";
+import { useQuery } from "@tanstack/react-query";
 
+import * as ProductService from '../../services/ProductService'
 
 const NavbarItems = [
     {
@@ -92,7 +94,14 @@ const NavbarSubItems = [
 
 const SpanFooter = [5, 5, 7, 7]
 
+
 const HomePage = () => {
+    const fetchProductAll = async () => {
+        const res = await ProductService.getAllProduct()
+        return res
+    }
+    const { isLoading, data: products } = useQuery({queryKey: ['product'], queryFn: fetchProductAll})
+
     return (
         <WrapperHomePage>
             <Col span={4}>
@@ -112,12 +121,20 @@ const HomePage = () => {
                     <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} option={0} />
                 </WrapperSlider>
                 <WrapperCardProduct>
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
-                    <CardComponent />
+                    {products?.data?.map((product) => {
+                        return (
+                            <CardComponent
+                                key={product._id}
+                                countInStock={product.countInStock}
+                                image={product.image}
+                                name={product.name}
+                                price={product.price}
+                                rating={product.rating}
+                                discount={product.discount}
+                                sold={product.sold}
+                            />
+                        )
+                    })}
                 </WrapperCardProduct>
                 <WrapperFooter>
                     <FooterComponent span={SpanFooter} />
