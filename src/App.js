@@ -33,11 +33,6 @@ function App() {
 
   const dispatch = useDispatch()
 
-  const handleGetDetailsUser = async (id, token) => {
-    const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({...res?.data, access_token: token}))
-  }
-
   const handleDecoded = () => {
     let storageData = localStorage.getItem('access_token')
     let decoded = {}
@@ -46,6 +41,11 @@ function App() {
       decoded = jwtDecode(storageData)
     }
     return { decoded, storageData }
+  }
+  
+  const handleGetDetailsUser = async (id, token) => {
+    const res = await UserService.getDetailsUser(id, token)
+    dispatch(updateUser({...res?.data, access_token: token}))
   }
 
   return (
