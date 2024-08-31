@@ -63,6 +63,9 @@ const HeaderComponent = () => {
                                     content={
                                         <WrapperUserOption>
                                             <UserOption onClick={() => navigate('/profile')}>Thông tin người dùng</UserOption>
+                                            {user?.isAdmin && (
+                                                <UserOption onClick={() => navigate('/system/admin')}>Quản lý hệ thống</UserOption>
+                                            )}
                                             <UserOption onClick={handleLogout}>Đăng xuất</UserOption>
                                         </WrapperUserOption>
                                     }
