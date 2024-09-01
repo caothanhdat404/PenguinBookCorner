@@ -9,7 +9,7 @@ import Loading from '../../components/LoadingComponent/Loading'
 import * as UserService from '../../services/UserService'
 import { resetUser } from '../../redux/user/userSlice'
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHiddenUndertake = false }) => {
     const user = useSelector((state) => state.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -42,7 +42,7 @@ const HeaderComponent = () => {
             top: 0,
             zIndex: '1000'
         }}>
-            <WrapperHeader>
+            <WrapperHeader style={{ justifyContent: isHiddenSearch && isHiddenCart ? 'space-between' : 'unset' }}>
                 <Col span={6}>
                     <WrapperTextHeader>
                         <Link to='/'>
@@ -50,11 +50,13 @@ const HeaderComponent = () => {
                         </Link>
                     </WrapperTextHeader>
                 </Col>
-                <Col span={12}>
-                    <WrapperSearchHeader>
-                        <SearchWrapper placeholder="Input search text" enterButton />
-                    </WrapperSearchHeader>
-                </Col>
+                {!isHiddenSearch && (
+                    <Col span={12}>
+                        <WrapperSearchHeader>
+                            <SearchWrapper placeholder="Input search text" enterButton />
+                        </WrapperSearchHeader>
+                    </Col>
+                )}
                 <Col span={6}>
                     <WrapperHeaderAccount>
                         <Loading isLoading={loading}>
@@ -92,14 +94,16 @@ const HeaderComponent = () => {
                                 </HeaderButton>
                             }
                         </Loading>
-                        <HeaderButton type="text" block>
-                            <ShoppingCartOutlined />
-                            <span>Giỏ hàng</span>
-                        </HeaderButton>
+                        {!isHiddenCart && (
+                            <HeaderButton type="text" block>
+                                <ShoppingCartOutlined />
+                                <span>Giỏ hàng</span>
+                            </HeaderButton>
+                        )}
                     </WrapperHeaderAccount>
                 </Col>
             </WrapperHeader>
-            <UndertakeComponent />
+            {!isHiddenUndertake && (<UndertakeComponent />)}
         </div>
     )
 }
