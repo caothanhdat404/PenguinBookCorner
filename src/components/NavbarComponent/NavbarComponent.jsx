@@ -3,7 +3,7 @@ import { StyleMenu } from './style'
 import { useNavigate } from 'react-router-dom';
 
 const NavbarComponent = (props) => {
-    const { items } = props;
+    const { items, isNavigate, sendData } = props;
     const navigate = useNavigate();
 
     const handleChangePage = (path) => {
@@ -15,7 +15,7 @@ const NavbarComponent = (props) => {
         label: item.icon ? (
             <span>{item.icon} {item.label}</span>
         ) : item.label,
-        onClick: () => item.path && handleChangePage(item.path)
+        onClick: isNavigate ? () => item.path && handleChangePage(item.path) : () => sendData(item.key)
     }));
 
     return (
