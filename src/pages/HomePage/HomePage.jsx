@@ -108,11 +108,11 @@ const HomePage = () => {
                 <div style={{ position: 'sticky', left: 0, top: '116px' }}>
                     <WrapperNavbar>
                         <div>Danh mục</div>
-                        <NavbarComponent items={NavbarItems} />
+                        <NavbarComponent items={NavbarItems} isNavigate/>
                     </WrapperNavbar>
                     <WrapperSubNavbar>
                         <div>Tiện ích</div>
-                        <NavbarComponent items={NavbarSubItems} />
+                        <NavbarComponent items={NavbarSubItems} isNavigate/>
                     </WrapperSubNavbar>
                 </div>
             </Col>
