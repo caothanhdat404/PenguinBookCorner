@@ -6,3 +6,13 @@ export const isJsonString = (data) => {
     }
     return true
 }
+
+export const getItem = (key, icon, children, label, type) => {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type
+    }
+}
