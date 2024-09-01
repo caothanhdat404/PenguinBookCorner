@@ -18,6 +18,10 @@ import { ReactComponent as Stationery } from '../../assets/svg/stationery.svg'
 
 import FooterComponent from "../../components/FooterComponent/FooterComponent";
 
+import { useQuery } from "@tanstack/react-query";
+
+import * as ProductService from '../../services/ProductService'
+
 const NavbarItems = [
     {
         key: '1',
@@ -86,7 +90,7 @@ const NavbarSubItems = [
 
 const SpanFooter = [5, 5, 7, 7]
 
-function itemRender(currentRoute, params, items, paths) {
+function itemRender(currentRoute, items, paths) {
     const isLast = currentRoute?.path === items[items.length - 1]?.path;
 
     return isLast ? (
@@ -112,6 +116,12 @@ const ProductPage = () => {
 
     const categoryDisplay = categoryNames[category];
 
+    const fetchProductAll = async () => {
+        const res = await ProductService.getAllProduct()
+        return res
+    }
+    const { isLoading, data: products } = useQuery({queryKey: ['product'], queryFn: fetchProductAll})
+
     return (
         <WrapperProductPage>
             <WrapperBreadcrumd>
@@ -134,11 +144,11 @@ const ProductPage = () => {
                     <div style={{ position: 'sticky', left: 0, top: '116px' }}>
                         <WrapperNavbar>
                             <div>Danh mục</div>
-                            <NavbarComponent items={NavbarItems} />
+                            <NavbarComponent items={NavbarItems} isNavigate />
                         </WrapperNavbar>
                         <WrapperSubNavbar>
                             <div>Tiện ích</div>
-                            <NavbarComponent items={NavbarSubItems} />
+                            <NavbarComponent items={NavbarSubItems} isNavigate />
                         </WrapperSubNavbar>
                     </div>
                 </Col>
@@ -147,12 +157,20 @@ const ProductPage = () => {
                         <h1>{categoryDisplay}</h1>
                     </WrapperCategory>
                     <WrapperCardProduct>
-                        <CardComponent />
-                        <CardComponent />
-                        <CardComponent />
-                        <CardComponent />
-                        <CardComponent />
-                        <CardComponent />
+                        {products?.data?.map((product) => {
+                            return (
+                                <CardComponent
+                                    key={product._id}
+                                    countInStock={product.countInStock}
+                                    image={product.image}
+                                    name={product.name}
+                                    price={product.price}
+                                    rating={product.rating}
+                                    discount={product.discount}
+                                    sold={product.sold}
+                                />
+                            )
+                        })}
                     </WrapperCardProduct>
                     <WrapperFooter>
                         <FooterComponent span={SpanFooter} />
