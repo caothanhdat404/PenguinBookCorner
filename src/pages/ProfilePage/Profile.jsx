@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { WrapperProfile, WrapperHeaderProfile, Container, WrapperInput, WrapperLabel } from './style'
+import { WrapperProfile, WrapperHeaderProfile, Container, WrapperInput, WrapperLabel, WrapperUploadFile } from './style'
 import InputForm from '../../components/InputForm/InputForm'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import Loading from '../../components/LoadingComponent/Loading'
@@ -11,6 +11,9 @@ import { updateUser } from '../../redux/user/userSlice'
 import * as UserService from '../../services/UserService'
 
 import { useMutationHook } from '../../hooks/useMutationHook'
+import { Button } from 'antd'
+import { UploadOutlined } from '@ant-design/icons'
+import { getBase64 } from '../../utils'
 
 const Profile = () => {
   const user = useSelector((state) => state.user)
@@ -28,7 +31,7 @@ const Profile = () => {
       UserService.updateUser(id, rests, access_token)
     }
   )
-  const {isPending, isSuccess, isError} = mutation
+  const { isPending, isSuccess, isError } = mutation
 
   useEffect(() => {
     setEmail(user?.email)
@@ -62,13 +65,17 @@ const Profile = () => {
     setAddress(e.target.value)
   }
 
-  const handleOnchangeAvatar = (e) => {
-    setAvatar(e.target.value)
+  const handleOnchangeAvatar = async (fileList) => {
+    const file = fileList[0]
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setAvatar(file.preview)
   }
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({...res?.data, access_token: token}))
+    dispatch(updateUser({ ...res?.data, access_token: token }))
   }
 
   const handleUpdate = () => {
@@ -85,7 +92,7 @@ const Profile = () => {
         <Container>
           <WrapperInput>
             <WrapperLabel htmlFor="email">Email:</WrapperLabel>
-            <InputForm style={{ width: '500px' }} id="email" value={email} onChange={handleOnchangeEmail} type=""/>
+            <InputForm style={{ width: '500px' }} id="email" value={email} onChange={handleOnchangeEmail} type="" />
             <ButtonComponent
               onClick={handleUpdate}
               size={40}
@@ -107,7 +114,7 @@ const Profile = () => {
           </WrapperInput>
           <WrapperInput>
             <WrapperLabel htmlFor="name">Họ và Tên:</WrapperLabel>
-            <InputForm style={{ width: '500px' }} id="name" value={name} onChange={handleOnchangeName}/>
+            <InputForm style={{ width: '500px' }} id="name" value={name} onChange={handleOnchangeName} />
             <ButtonComponent
               onClick={handleUpdate}
               size={40}
@@ -129,7 +136,7 @@ const Profile = () => {
           </WrapperInput>
           <WrapperInput>
             <WrapperLabel htmlFor="phone">Số điện thoại:</WrapperLabel>
-            <InputForm style={{ width: '500px' }} id="phone" value={phone} onChange={handleOnchangePhone}/>
+            <InputForm style={{ width: '500px' }} id="phone" value={phone} onChange={handleOnchangePhone} />
             <ButtonComponent
               onClick={handleUpdate}
               size={40}
@@ -151,7 +158,7 @@ const Profile = () => {
           </WrapperInput>
           <WrapperInput>
             <WrapperLabel htmlFor="address">Địa chỉ:</WrapperLabel>
-            <InputForm style={{ width: '500px' }} id="address" value={address} onChange={handleOnchangeAddress}/>
+            <InputForm style={{ width: '500px' }} id="address" value={address} onChange={handleOnchangeAddress} />
             <ButtonComponent
               onClick={handleUpdate}
               size={40}
@@ -173,7 +180,17 @@ const Profile = () => {
           </WrapperInput>
           <WrapperInput>
             <WrapperLabel htmlFor="avatar">Avatar:</WrapperLabel>
-            <InputForm style={{ width: '500px' }} id="avatar" value={avatar} onChange={handleOnchangeAvatar}/>
+            <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
+              <Button icon={<UploadOutlined />}>Chọn tệp</Button>
+            </WrapperUploadFile>
+            {avatar && (
+              <img src={avatar} alt='avatar' style={{
+                height: '60px',
+                width: '60px',
+                borderRadius: '50%',
+                objectFit: 'cover'
+              }}/>
+            )}
             <ButtonComponent
               onClick={handleUpdate}
               size={40}

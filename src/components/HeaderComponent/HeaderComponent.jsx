@@ -15,6 +15,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
+    const [userAvatar, setUserAvatar] = useState('')
 
     const handleSignIn = () => {
         navigate('/sign-in')
@@ -31,6 +32,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
     useEffect(() => {
         setLoading(true)
         setUserName(user?.name)
+        setUserAvatar(user?.avatar)
         setLoading(false)
     })
 
@@ -75,7 +77,14 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
                                     placement="bottom-end"
                                 >
                                     <HeaderButton type="text" block>
-                                        <UserOutlined />
+                                        {userAvatar ? (
+                                            <img src={userAvatar} alt='avatar' style={{
+                                                height: '30px',
+                                                width: '30px',
+                                                borderRadius: '50%',
+                                                objectFit: 'cover'
+                                              }}/>
+                                        ) :  <UserOutlined />}
                                         <div style={{
                                             whiteSpace: 'nowrap',
                                             overflow: 'hidden',
