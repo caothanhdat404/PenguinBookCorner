@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { WrapperHeader } from './style'
+import { WrapperHeader, WrapperUploadFile } from './style'
 import { Button, Form, Input, Modal } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import TableComponent from '../TableComponent/TableComponent'
@@ -8,6 +8,7 @@ import * as message from '../Message/Message'
 
 import * as ProductService from '../../services/ProductService'
 import { useMutationHook } from '../../hooks/useMutationHook'
+import { getBase64 } from '../../utils'
 
 const AdminProduct = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -64,6 +65,16 @@ const AdminProduct = () => {
     })
   }
 
+  const handleOnchangeImage = async (fileList) => {
+    const file = fileList[0]
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
+    }
+    setStateProduct({
+      ...stateProduct,
+      image: file.preview
+    })
+  }
 
   return (
     <div>
@@ -103,7 +114,7 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.name} onChange={handleOnChange} name="name"/>
+              <Input value={stateProduct.name} onChange={handleOnChange} name="name" />
             </Form.Item>
 
             <Form.Item
@@ -116,7 +127,7 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.type} onChange={handleOnChange} name="type"/>
+              <Input value={stateProduct.type} onChange={handleOnChange} name="type" />
             </Form.Item>
 
             <Form.Item
@@ -129,7 +140,7 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.countInStock} onChange={handleOnChange} name="countInStock"/>
+              <Input value={stateProduct.countInStock} onChange={handleOnChange} name="countInStock" />
             </Form.Item>
 
             <Form.Item
@@ -142,7 +153,7 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.price} onChange={handleOnChange} name="price"/>
+              <Input value={stateProduct.price} onChange={handleOnChange} name="price" />
             </Form.Item>
 
             <Form.Item
@@ -155,7 +166,7 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.rating} onChange={handleOnChange} name="rating"/>
+              <Input value={stateProduct.rating} onChange={handleOnChange} name="rating" />
             </Form.Item>
 
             <Form.Item
@@ -168,21 +179,31 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input.TextArea value={stateProduct.description} onChange={handleOnChange} name="description"/>
+              <Input.TextArea value={stateProduct.description} onChange={handleOnChange} name="description" />
             </Form.Item>
 
-            {/* <Form.Item
-            label="Image"
-            name="Image"
-            rules={[
-              {
-                required: true,
-                message: 'Please input image of product',
-              },
-            ]}
-          >
-            <Input value={stateProduct.image} onChange={handleOnChange} name="image"/>
-          </Form.Item> */}
+            <Form.Item
+              label="Image"
+              name="image"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input image of product',
+                },
+              ]}
+            >
+              <WrapperUploadFile onChange={handleOnchangeImage} maxCount={1}>
+                <Button >Chọn tệp</Button>
+              </WrapperUploadFile>
+              {stateProduct?.image && (
+              <img src={stateProduct?.image} alt='avatar' style={{
+                height: '60px',
+                width: '60px',
+                borderRadius: '50%',
+                objectFit: 'cover'
+              }}/>
+            )}
+            </Form.Item>
           </Form>
         </Loading>
       </Modal>
