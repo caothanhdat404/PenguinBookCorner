@@ -66,7 +66,7 @@ const Profile = () => {
   }
 
   const handleOnchangeAvatar = async (fileList) => {
-    const file = fileList[0]
+    const file = fileList.file
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
     }
@@ -183,14 +183,7 @@ const Profile = () => {
             <WrapperUploadFile onChange={handleOnchangeAvatar} maxCount={1}>
               <Button icon={<UploadOutlined />}>Chọn tệp</Button>
             </WrapperUploadFile>
-            {avatar && (
-              <img src={avatar} alt='avatar' style={{
-                height: '60px',
-                width: '60px',
-                borderRadius: '50%',
-                objectFit: 'cover'
-              }}/>
-            )}
+            
             <ButtonComponent
               onClick={handleUpdate}
               size={40}
