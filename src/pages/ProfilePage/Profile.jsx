@@ -65,10 +65,11 @@ const Profile = () => {
     setAddress(e.target.value)
   }
 
-  const handleOnchangeAvatar = async (fileList) => {
-    const file = fileList.file
+  const handleOnchangeAvatar = async ({fileList}) => {
+    const file = fileList[0]
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
+      file.status = 'done'
     }
     setAvatar(file.preview)
   }
