@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { Col } from 'antd'
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import logo from '../../assets/images/logo/logo.png'
 import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper, WrapperHeaderAccount, HeaderButton, StyleTippy, WrapperUserOption, UserOption } from './style'
 import UndertakeComponent from '../UndertakeComponent/UndertakeComponent';
 import Loading from '../../components/LoadingComponent/Loading'
 import * as UserService from '../../services/UserService'
 import { resetUser } from '../../redux/user/userSlice'
+import { searchProduct } from '../../redux/product/productSlice';
 
 const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHiddenUndertake = false }) => {
     const user = useSelector((state) => state.user)
@@ -16,6 +18,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
     const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
     const [userAvatar, setUserAvatar] = useState('')
+    const [search, setSearch] = useState('')
 
     const handleSignIn = () => {
         navigate('/sign-in')
@@ -36,6 +39,11 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
         setLoading(false)
     })
 
+    const handleSearch = (e) => {
+        setSearch(e.target.value)
+        dispatch(searchProduct(search))
+    }
+
     return (
         <div style={{
             width: '100%',
@@ -48,14 +56,14 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
                 <Col span={6}>
                     <WrapperTextHeader>
                         <Link to='/'>
-                            PENGUINBOOKCORNER
+                            <img src={logo} alt='Penguin Book Corner' style={{ width: '150px', height: '30px' }}></img>
                         </Link>
                     </WrapperTextHeader>
                 </Col>
                 {!isHiddenSearch && (
                     <Col span={12}>
                         <WrapperSearchHeader>
-                            <SearchWrapper placeholder="Input search text" enterButton />
+                            <SearchWrapper placeholder="Input search text" enterButton onChange={handleSearch} />
                         </WrapperSearchHeader>
                     </Col>
                 )}
@@ -83,8 +91,8 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
                                                 width: '30px',
                                                 borderRadius: '50%',
                                                 objectFit: 'cover'
-                                              }}/>
-                                        ) :  <UserOutlined />}
+                                            }} />
+                                        ) : <UserOutlined />}
                                         <div style={{
                                             whiteSpace: 'nowrap',
                                             overflow: 'hidden',
