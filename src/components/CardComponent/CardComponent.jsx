@@ -1,17 +1,16 @@
 import React from 'react'
 import { WrapperCard, NameProduct, WrapperReportText, WrapperPriceText, WrapperDiscountText } from './style'
 import { StarFilled } from '@ant-design/icons'
-import fullproductImg from '../../assets/images/fullproductImg.webp'
 const CardComponent = (props) => {
-  const {  image, name, price, rating, discount, sold} = props
+  const { image, name, price, rating, discount, sold } = props
 
   return (
     <WrapperCard
       hoverable
       headStyle={{ width: '200px', height: '200px' }}
-      style={{ width: '200px', height: '300px' }}
+      style={{ width: '180px', height: '300px' }}
       bodyStyle={{ padding: '10px' }}
-      cover={<img alt='image' src={fullproductImg} />}
+      cover={<img alt='image' src={image} />}
     >
       <NameProduct>{name}</NameProduct>
       <WrapperReportText>
@@ -21,7 +20,10 @@ const CardComponent = (props) => {
         <span> | Đã bán {sold}+</span>
       </WrapperReportText>
       <WrapperPriceText>
-        {price}.000đ
+        {Number(price*1000).toLocaleString('vi-VN', {
+          style: 'currency',
+          currency: 'VND',
+        })}
         <WrapperDiscountText>-{discount}%</WrapperDiscountText>
       </WrapperPriceText>
     </WrapperCard>
