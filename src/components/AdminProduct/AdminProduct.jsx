@@ -81,7 +81,7 @@ const AdminProduct = () => {
       description: '',
       image: ''
     })
-    form.resetFields()
+    // form.resetFields()
   }
 
   const handleOnChange = (e) => {
@@ -91,11 +91,11 @@ const AdminProduct = () => {
     })
   }
 
-  const handleOnchangeImage = async (fileList) => {
-    const file = fileList.file
-    console.log('file',file)
+  const handleOnchangeImage = async ({fileList}) => {
+    const file = fileList[0]
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
+      file.status = 'done'
     }
     setStateProduct({
       ...stateProduct,
@@ -143,6 +143,13 @@ const AdminProduct = () => {
     setIsPendingUpdate(false)
   }
 
+  const handleOnChangeDetail = (e) => {
+    setStateProductDetail({
+      ...stateProductDetail,
+      [e.target.name]: e.target.value
+    })
+  }
+
   // useEffect(() => {
   //   form.setFieldsValue(stateProductDetail)
   // }, [form, stateProductDetail])
@@ -177,20 +184,16 @@ const AdminProduct = () => {
       description: '',
       image: ''
     })
-    form.resetFields()
+    // form.resetFields()
   }
 
-  const handleOnChangeDetail = (e) => {
-    setStateProductDetail({
-      ...stateProductDetail,
-      [e.target.name]: e.target.value
-    })
-  }
+  
 
-  const handleOnchangeImageDetail = async (fileList) => {
+  const handleOnchangeImageDetail = async ({fileList}) => {
     const file = fileList[0]
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
+      file.status = 'done'
     }
     setStateProductDetail({
       ...stateProductDetail,
@@ -239,6 +242,7 @@ const AdminProduct = () => {
         queryProduct.refetch()
       }
     })
+    
   }
   //Filter, sort, search
   const [searchText, setSearchText] = useState('');
@@ -359,10 +363,7 @@ const AdminProduct = () => {
     {
       title: 'Rating',
       dataIndex: 'rating',
-      sorter: (a, b) => a.rating - b.rating
-    }, {
-      title: 'Type',
-      dataIndex: 'type',
+      sorter: (a, b) => a.rating - b.rating,
       filters: [
         {
           text: '0 - 1',
@@ -404,6 +405,9 @@ const AdminProduct = () => {
           return Number(record.rating) === 5
         }
       }
+    }, {
+      title: 'Type',
+      dataIndex: 'type',
     },
     {
       title: 'Action',
@@ -542,7 +546,7 @@ const AdminProduct = () => {
                 <Button >Chọn tệp</Button>
               </WrapperUploadFile>
               {stateProduct?.image && (
-                <img src={stateProduct?.image} alt='avatar' style={{
+                <img src={stateProduct?.image} alt='image product' style={{
                   height: '60px',
                   width: '60px',
                   borderRadius: '50%',
@@ -559,10 +563,10 @@ const AdminProduct = () => {
           <Form
             name="basic"
             labelCol={{
-              span: 2,
+              span: 6,
             }}
             wrapperCol={{
-              span: 22,
+              span: 18,
             }}
             style={{
               maxWidth: 600,
@@ -654,7 +658,7 @@ const AdminProduct = () => {
               name="image"
               rules={[
                 {
-                  required: true,
+                  // required: true,
                   message: 'Please input image of product',
                 },
               ]}
@@ -663,7 +667,7 @@ const AdminProduct = () => {
                 <Button >Chọn tệp</Button>
               </WrapperUploadFile>
               {stateProductDetail?.image && (
-                <img src={stateProductDetail?.image} alt='avatar' style={{
+                <img src={stateProductDetail?.image} alt='image product' style={{
                   height: '60px',
                   width: '60px',
                   borderRadius: '50%',
@@ -680,7 +684,7 @@ const AdminProduct = () => {
         </Loading>
       </DrawerComponent>
 
-      <ModalComponent title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOK={handleDeleteProduct}>
+      <ModalComponent title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteProduct}>
         <Loading isLoading={isPendingDeleted}>
           <div>Xóa sản phẩm?</div>
         </Loading>
