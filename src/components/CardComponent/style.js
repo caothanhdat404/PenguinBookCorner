@@ -14,6 +14,9 @@ export const NameProduct = styled.div`
     font-size: 12px;
     line-height: 16px;
     color: rgb(56, 56, 61);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
 `
 
 export const WrapperReportText = styled.div`
