@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col } from 'antd'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import CardComponent from '../../components/CardComponent/CardComponent'
@@ -25,6 +25,7 @@ import FooterComponent from "../../components/FooterComponent/FooterComponent";
 import { useQuery } from "@tanstack/react-query";
 
 import * as ProductService from '../../services/ProductService'
+import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 
 const NavbarItems = [
     {
@@ -96,11 +97,19 @@ const SpanFooter = [5, 5, 7, 7]
 
 
 const HomePage = () => {
-    const fetchProductAll = async () => {
-        const res = await ProductService.getAllProduct()
+    const [limit, setLimit] = useState(12)
+
+    const fetchProductAll = async (context) => {
+        const limit = context?.queryKey && context?.queryKey[1]
+        console.log('limit', limit)
+        const res = await ProductService.getAllProduct(limit)
         return res
     }
-    const { isLoading, data: products } = useQuery({queryKey: ['product'], queryFn: fetchProductAll})
+    const { isLoading, data: products } = useQuery({ queryKey: ['product', limit], queryFn: fetchProductAll })
+
+    const handleLoadMore = () => {
+        setLimit((prev) => prev + 6)
+    }
 
     return (
         <WrapperHomePage>
@@ -108,11 +117,11 @@ const HomePage = () => {
                 <div style={{ position: 'sticky', left: 0, top: '116px' }}>
                     <WrapperNavbar>
                         <div>Danh mục</div>
-                        <NavbarComponent items={NavbarItems} isNavigate/>
+                        <NavbarComponent items={NavbarItems} isNavigate />
                     </WrapperNavbar>
                     <WrapperSubNavbar>
                         <div>Tiện ích</div>
-                        <NavbarComponent items={NavbarSubItems} isNavigate/>
+                        <NavbarComponent items={NavbarSubItems} isNavigate />
                     </WrapperSubNavbar>
                 </div>
             </Col>
@@ -136,6 +145,27 @@ const HomePage = () => {
                         )
                     })}
                 </WrapperCardProduct>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <ButtonComponent
+                        onClick={handleLoadMore}
+                        size={40}
+                        styleButton={{
+                            background: 'transparent',
+                            height: '40px',
+                            width: '120px',
+                            border: 'solid 1px rgb(26, 148, 255)',
+                            borderRadius: '4px',
+                            textAlign: 'center',
+                            marginBottom: '10px'
+                        }}
+                        textButton={'Xem thêm'}
+                        styleTextButton={{
+                            color: 'rgb(26, 148, 255)',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                        }}
+                    ></ButtonComponent>
+                </div>
                 <WrapperFooter>
                     <FooterComponent span={SpanFooter} />
                 </WrapperFooter>
