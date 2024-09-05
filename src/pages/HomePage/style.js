@@ -4,7 +4,6 @@ import { Row } from 'antd'
 export const WrapperHomePage = styled(Row)`
     padding: 116px 64px 0;
     background-color: #efefef;
-    height: 1200px;
 `
 
 export const WrapperSlider = styled.div`
@@ -20,11 +19,13 @@ export const WrapperSlider = styled.div`
 export const WrapperCardProduct = styled.div`
     width: 100%;
     display: flex; 
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
     gap: 10px; 
     background-color: #fff; 
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 15px;
     border-radius: 4px; 
     box-sizing: border-box;
 `
