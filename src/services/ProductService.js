@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { axiosJWT } from './UserService'
 
-export const getAllProduct = async(data) => {
-    const res = await axios.get(`http://localhost:3000/api/product/getAll`)
+export const getAllProduct = async(limit) => {
+    const res = await axios.get(`http://localhost:3000/api/product/getAll?limit=${limit}`)
     return res.data
 }
 
