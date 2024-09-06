@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { Col } from 'antd'
+import { Badge, Col } from 'antd'
 import { UserOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import logo from '../../assets/images/logo/logo.png'
 import { WrapperHeader, WrapperTextHeader, WrapperSearchHeader, SearchWrapper, WrapperHeaderAccount, HeaderButton, StyleTippy, WrapperUserOption, UserOption } from './style'
@@ -15,6 +15,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
     const user = useSelector((state) => state.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const order = useSelector((state) => state.order)
     const [loading, setLoading] = useState(false)
     const [userName, setUserName] = useState('')
     const [userAvatar, setUserAvatar] = useState('')
@@ -112,10 +113,13 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
                             }
                         </Loading>
                         {!isHiddenCart && (
-                            <HeaderButton type="text" block>
-                                <ShoppingCartOutlined />
+                            <HeaderButton type="text" block onClick={() => navigate('/order')}>
+                                <Badge count={order?.orderItems?.length} size='small'>
+                                    <ShoppingCartOutlined style={{ color: '#fff' }}/>
+                                </Badge>
                                 <span>Giỏ hàng</span>
                             </HeaderButton>
+
                         )}
                     </WrapperHeaderAccount>
                 </Col>
