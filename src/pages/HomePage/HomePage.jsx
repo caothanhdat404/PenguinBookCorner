@@ -26,6 +26,9 @@ import { useQuery } from "@tanstack/react-query";
 
 import * as ProductService from '../../services/ProductService'
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import { useSelector } from "react-redux";
+import Loading from "../../components/LoadingComponent/Loading";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const NavbarItems = [
     {
@@ -97,80 +100,87 @@ const SpanFooter = [5, 5, 7, 7]
 
 
 const HomePage = () => {
+    const searchProduct = useSelector((state) => state?.product?.search)
+    const searchDebounce = useDebounce(searchProduct, 1000)
     const [limit, setLimit] = useState(12)
-
     const fetchProductAll = async (context) => {
         const limit = context?.queryKey && context?.queryKey[1]
-        console.log('limit', limit)
-        const res = await ProductService.getAllProduct(limit)
+        const search = context?.queryKey && context.queryKey[2]
+        const res = await ProductService.getAllProduct(search, limit)
         return res
     }
-    const { isLoading, data: products } = useQuery({ queryKey: ['product', limit], queryFn: fetchProductAll })
+    const { isPending, data: products, isPreviousData } = useQuery({ queryKey: ['product', limit, searchDebounce], queryFn: fetchProductAll, retry: 3, retryDelay: 1000, keepPreviousData: true })
+
+
 
     const handleLoadMore = () => {
         setLimit((prev) => prev + 6)
     }
 
     return (
-        <WrapperHomePage>
-            <Col span={4}>
-                <div style={{ position: 'sticky', left: 0, top: '116px' }}>
-                    <WrapperNavbar>
-                        <div>Danh mục</div>
-                        <NavbarComponent items={NavbarItems} isNavigate />
-                    </WrapperNavbar>
-                    <WrapperSubNavbar>
-                        <div>Tiện ích</div>
-                        <NavbarComponent items={NavbarSubItems} isNavigate />
-                    </WrapperSubNavbar>
-                </div>
-            </Col>
-            <Col span={20}>
-                <WrapperSlider>
-                    <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} option={0} />
-                </WrapperSlider>
-                <WrapperCardProduct>
-                    {products?.data?.map((product) => {
-                        return (
-                            <CardComponent
-                                key={product._id}
-                                countInStock={product.countInStock}
-                                image={product.image}
-                                name={product.name}
-                                price={product.price}
-                                rating={product.rating}
-                                discount={product.discount}
-                                sold={product.sold}
-                            />
-                        )
-                    })}
-                </WrapperCardProduct>
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <ButtonComponent
-                        onClick={handleLoadMore}
-                        size={40}
-                        styleButton={{
-                            background: 'transparent',
-                            height: '40px',
-                            width: '120px',
-                            border: 'solid 1px rgb(26, 148, 255)',
-                            borderRadius: '4px',
-                            textAlign: 'center',
-                            marginBottom: '10px'
-                        }}
-                        textButton={'Xem thêm'}
-                        styleTextButton={{
-                            color: 'rgb(26, 148, 255)',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                        }}
-                    ></ButtonComponent>
-                </div>
-                <WrapperFooter>
-                    <FooterComponent span={SpanFooter} />
-                </WrapperFooter>
-            </Col>
-        </WrapperHomePage>
+        <Loading isLoading={isPending}>
+            <WrapperHomePage>
+                <Col span={4}>
+                    <div style={{ position: 'sticky', left: 0, top: '116px' }}>
+                        <WrapperNavbar>
+                            <div>Danh mục</div>
+                            <NavbarComponent items={NavbarItems} isNavigate />
+                        </WrapperNavbar>
+                        <WrapperSubNavbar>
+                            <div>Tiện ích</div>
+                            <NavbarComponent items={NavbarSubItems} isNavigate />
+                        </WrapperSubNavbar>
+                    </div>
+                </Col>
+                <Col span={20}>
+                    <WrapperSlider>
+                        <SliderComponent arrImages={[slider1, slider2, slider3, slider4, slider5, slider6]} option={0} />
+                    </WrapperSlider>
+                    <WrapperCardProduct>
+                        {products?.data?.map((product) => {
+                            return (
+                                <CardComponent
+                                    key={product._id}
+                                    countInStock={product.countInStock}
+                                    image={product.image}
+                                    name={product.name}
+                                    price={product.price}
+                                    rating={product.rating}
+                                    discount={product.discount}
+                                    sold={product.sold}
+                                    id={product._id}
+                                />
+                            )
+                        })}
+                    </WrapperCardProduct>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <ButtonComponent
+                            disabled={products?.total === products?.data?.length || products?.totalPage === 1}
+                            onClick={handleLoadMore}
+                            size={40}
+                            styleButton={{
+                                background: 'transparent',
+                                height: '40px',
+                                width: '120px',
+                                border: 'solid 1px rgb(26, 148, 255)',
+                                borderRadius: '4px',
+                                textAlign: 'center',
+                                marginBottom: '10px'
+                            }}
+                            textButton={'Xem thêm'}
+                            styleTextButton={{
+                                color: 'rgb(26, 148, 255)',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                            }}
+                        ></ButtonComponent>
+                    </div>
+                    <WrapperFooter>
+                        <FooterComponent span={SpanFooter} />
+                    </WrapperFooter>
+                </Col>
+            </WrapperHomePage>
+        </Loading>
     );
 }
 
