@@ -1,8 +1,13 @@
 import React from 'react'
 import { WrapperCard, NameProduct, WrapperReportText, WrapperPriceText, WrapperDiscountText } from './style'
 import { StarFilled } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 const CardComponent = (props) => {
-  const { image, name, price, rating, discount, sold } = props
+  const { image, name, price, rating, discount, sold, id } = props
+  const navigate = useNavigate()
+  const handleDetailsProduct = (id) => {
+    navigate(`/product-detail/${id}`, { state: name })
+  }
 
   return (
     <WrapperCard
@@ -11,6 +16,7 @@ const CardComponent = (props) => {
       style={{ width: '180px', height: '300px' }}
       bodyStyle={{ padding: '10px' }}
       cover={<img alt='image' src={image} />}
+      onClick={() => handleDetailsProduct(id)}
     >
       <NameProduct>{name}</NameProduct>
       <WrapperReportText>
@@ -20,7 +26,7 @@ const CardComponent = (props) => {
         <span> | Đã bán {sold}+</span>
       </WrapperReportText>
       <WrapperPriceText>
-        {Number(price*1000).toLocaleString('vi-VN', {
+        {Number(price * 1000).toLocaleString('vi-VN', {
           style: 'currency',
           currency: 'VND',
         })}
