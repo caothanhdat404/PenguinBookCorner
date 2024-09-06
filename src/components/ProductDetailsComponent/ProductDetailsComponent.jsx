@@ -1,8 +1,8 @@
-import { Row, Col } from 'antd'
+import { Row, Col, Rate } from 'antd'
 import React from 'react'
 import SliderComponent from '../SliderComponent/SliderComponent'
 import { WrapperNameProduct, TextSell, PriceProduct, PriceTextProduct, AddressCustomer, QualityProduct, WrapperInputNumber } from './style'
-import { StarFilled, MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import imageProduct from '../../assets/images/fullproductImg.webp'
 import ButtonComponent from '../ButtonComponent/ButtonComponent'
 import bookmark from '../../assets/images/bookmark.webp'
@@ -10,33 +10,71 @@ import bookmarks from '../../assets/images/bookmarks.webp'
 import tikibookmark from '../../assets/images/tikibookmark.webp'
 import wabookmark from '../../assets/images/wabookmark.webp'
 
+import * as ProductService from '../../services/ProductService'
+
 import { useDispatch, useSelector } from 'react-redux';
 import { increment, decrement } from '../../redux/counter/counterSlice';
+import { useQuery } from '@tanstack/react-query'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { addOrder } from '../../redux/order/orderSlice'
 
-const ProductDetailsComponent = () => {
+const ProductDetailsComponent = ({ idProduct }) => {
     const dispatch = useDispatch();
-    const count = useSelector((state) => state.counter.value);
+    const count = useSelector((state) => state.counter.value)
 
+    const user = useSelector((state) => state.user)
+
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const fetchDetailProduct = async (context) => {
+        const id = context?.queryKey && context?.queryKey[1]
+        if (id) {
+            const res = await ProductService.getDetailProduct(id)
+            return res.data
+        } 
+    }
+
+    const { isPending, data: productDetails } = useQuery({ queryKey: ['product-details', idProduct], queryFn: fetchDetailProduct, enabled: !!idProduct })
+
+
+    const handleOrderProduct = () => {
+        if(!user?.id) {
+            navigate('/sign-in', { state: location?.pathname })
+        } else {
+            dispatch(addOrder({
+                orderItems: {
+                    name: productDetails?.name,
+                    amount: count,
+                    image: productDetails?.image,
+                    price: productDetails?.price,
+                    product: productDetails?.id
+                }
+            }))
+        }
+    }
+    
     return (
-        <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px' }} >
+        <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px', height: '80%' }} >
             <Col span={10} style={{ borderRight: '1px solid #e5e5e5', paddingRight: '8px' }}>
                 <SliderComponent arrImages={[imageProduct, imageProduct, bookmark, bookmarks, tikibookmark, wabookmark]} option={1} />
             </Col>
             <Col span={14} style={{ paddingLeft: '10px' }}>
-                <WrapperNameProduct>Combo Trọn Bộ CONAN ĐẶC SẮC Conan và Tổ chức Áo Đen (Tập 1, 2) + Conan Tuyển Tập Đặc Biệt - FBI Selection + Conan Tuyển Tập Fan Bình Chọn (Tập 1, 2) + Conan Những Câu Chuyện Lãng Mạn (Tập 1,2,3) - Bộ 8 Cuốn/ Tặng kèm Postcard Green Life</WrapperNameProduct>
+                <WrapperNameProduct>{productDetails?.name}</WrapperNameProduct>
                 <div>
-                    <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }}></StarFilled>
-                    <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }}></StarFilled>
-                    <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }}></StarFilled>
-                    <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }}></StarFilled>
-                    <StarFilled style={{ fontSize: '12px', color: 'rgb(253, 216, 54)' }}></StarFilled>
-                    <TextSell> | Đã bán 1000+</TextSell>
+                    <Rate allowHalf disabled value={productDetails?.rating}/>
+                    <TextSell> | Đã bán {productDetails?.sold} +</TextSell>
                     <PriceProduct>
-                        <PriceTextProduct>200.000</PriceTextProduct>
+                        <PriceTextProduct>
+                            {(Number(productDetails?.price) * 1000).toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            })}
+                        </PriceTextProduct>
                     </PriceProduct>
                     <AddressCustomer>
                         <span>Giao đến </span>
-                        <span className='address'>Q. 1, P. Bến Nghé, Hồ Chí Minh</span> -
+                        <span className='address'>{user?.address}</span> -
                         <span className='change-address'> Đổi địa chỉ</span>
                     </AddressCustomer>
                     <div style={{ margin: '10px 0 20px 0', paddingTop: '10px', borderTop: '1px solid #e5e5e5' }}>
@@ -53,6 +91,7 @@ const ProductDetailsComponent = () => {
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                         <ButtonComponent
+                            onClick={handleOrderProduct}
                             size={40}
                             styleButton={{
                                 background: 'rgb(26, 148, 255)',
