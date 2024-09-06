@@ -1,8 +1,13 @@
 import axios from 'axios'
 import { axiosJWT } from './UserService'
 
-export const getAllProduct = async(limit) => {
-    const res = await axios.get(`http://localhost:3000/api/product/getAll?limit=${limit}`)
+export const getAllProduct = async(search, limit) => {
+    let res = []
+    if(search.length > 0) {
+        res = await axios.get(`http://localhost:3000/api/product/getAll?filter=name&filter=${search}?limit=${limit}`)
+    } else {
+        res = await axios.get(`http://localhost:3000/api/product/getAll?limit=${limit}`)
+    }
     return res.data
 }
 
