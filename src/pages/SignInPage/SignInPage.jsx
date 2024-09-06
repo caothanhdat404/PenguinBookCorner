@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { jwtDecode } from "jwt-decode"
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { EyeFilled, EyeInvisibleFilled } from '@ant-design/icons'
 import { WrapperHeaderAuth, HeaderAuth, HeaderLogo, Logo, NeedHelp, WrapperBodyAuth, BodyAuth, Help, OtherWay, SignUpByOtherWay, WrapperBrandIcon, BrandIcon, ChangeState } from './style'
 import facebook from '../../assets/svg/facebook.svg'
@@ -36,6 +36,7 @@ const SignInPage = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const mutation = useMutationHook(
     data => UserService.loginUser(data)
@@ -45,7 +46,11 @@ const SignInPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate('/')
+      if (location?.state) {
+        navigate(location?.state)
+      } else {
+        navigate('/')
+      }
       localStorage.setItem('access_token', JSON.stringify(data?.access_token))
       if (data?.access_token) {
         const decoded = jwtDecode(data?.access_token)
@@ -65,7 +70,7 @@ const SignInPage = () => {
 
   const handleGetDetailsUser = async (id, token) => {
     const res = await UserService.getDetailsUser(id, token)
-    dispatch(updateUser({...res?.data, access_token: token}))
+    dispatch(updateUser({ ...res?.data, access_token: token }))
   }
 
   return (
