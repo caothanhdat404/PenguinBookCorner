@@ -26,15 +26,31 @@ export const orderSlice = createSlice({
             state.orderItems.push(orderItem)
         }
     },
+    increaseAmount: (state, action) => {
+      const { idProduct } = action.payload
+      const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+      itemOrder.amount++
+    },
+    decreaseAmount: (state, action) => {
+      const { idProduct } = action.payload
+      const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+      itemOrder.amount--
+    },
     removeOrder: (state, action) => {
         const { idProduct } = action.payload
         const itemOrder = state?.orderItems?.find((item) => item?.product !== idProduct)
-        itemOrder.orderItems = itemOrder
+        state.orderItems = itemOrder
         
-    }
+    },
+    removeAllOrder: (state, action) => {
+      const { listChecked } = action.payload
+      const itemOrder = state?.orderItems?.find((item) => !listChecked.includes(item.product))
+      state.orderItems = itemOrder
+      
+  }
   },
 })
 
-export const { addOrder } = orderSlice.actions
+export const { addOrder, increaseAmount, decreaseAmount, removeOrder, removeAllOrder } = orderSlice.actions
 
 export default orderSlice.reducer
