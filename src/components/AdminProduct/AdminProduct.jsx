@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { WrapperHeader, WrapperUploadFile } from './style'
-import { Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Select, Space } from 'antd'
 import { PlusOutlined, DeleteOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons'
 import TableComponent from '../TableComponent/TableComponent'
 import Loading from '../LoadingComponent/Loading'
@@ -8,7 +8,7 @@ import * as message from '../Message/Message'
 
 import * as ProductService from '../../services/ProductService'
 import { useMutationHook } from '../../hooks/useMutationHook'
-import { getBase64 } from '../../utils'
+import { getBase64, renderOptions } from '../../utils'
 import { useQuery } from '@tanstack/react-query'
 import DrawerComponent from '../DrawerComponent/DrawerComponent'
 import { useSelector } from 'react-redux'
@@ -30,6 +30,20 @@ const AdminProduct = () => {
   const queryProduct = useQuery({ queryKey: ['product'], queryFn: getAllProduct })
   const { isPending: isLoadingProducts, data: products } = queryProduct
 
+  const fetchAllTypeProduct = async () => {
+    const res = await ProductService.getAllTypeProduct()
+    return res
+  }
+
+  const queryTypeProduct = useQuery({ queryKey: ['type=product'], queryFn: fetchAllTypeProduct })
+
+  const handleOnChangeSelect = (value) => {
+    setStateProduct({
+      ...stateProduct,
+      type: value
+    })
+  }
+
   // Tạo sản phẩm
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -39,14 +53,16 @@ const AdminProduct = () => {
     countInStock: '',
     price: '',
     rating: '',
+    discount: '',
     description: '',
-    image: ''
+    image: '',
+    newType: '',
   })
 
   const mutation = useMutationHook(
     (data) => {
-      const { name, type, countInStock, price, rating, description, image } = data
-      const res = ProductService.createProduct({ name, type, countInStock, price, rating, description, image })
+      const { name, type, countInStock, price, rating, discount, description, image } = data
+      const res = ProductService.createProduct({ name, type, countInStock, price, rating, discount, description, image })
       return res
     }
   )
@@ -63,7 +79,17 @@ const AdminProduct = () => {
   }, [isSuccess, isError])
 
   const onFinish = () => {
-    mutation.mutate(stateProduct, {
+    const params = {
+      name: stateProduct.name,
+      type: stateProduct.type === 'add_type' ? stateProduct.newType : stateProduct.type,
+      countInStock: stateProduct.countInStock,
+      price: stateProduct.price,
+      rating: stateProduct.rating,
+      discount: stateProduct.discount,
+      description: stateProduct.description,
+      image: stateProduct.image,
+    }
+    mutation.mutate(params, {
       onSettled: () => {
         queryProduct.refetch()
       }
@@ -78,6 +104,7 @@ const AdminProduct = () => {
       countInStock: '',
       price: '',
       rating: '',
+      discount: '',
       description: '',
       image: ''
     })
@@ -113,6 +140,7 @@ const AdminProduct = () => {
     countInStock: '',
     price: '',
     rating: '',
+    discount: '',
     description: '',
     image: ''
   })
@@ -136,6 +164,7 @@ const AdminProduct = () => {
         countInStock: res?.data?.countInStock,
         price: res?.data?.price,
         rating: res?.data?.rating,
+        discount: res?.data?.discount,
         description: res?.data?.description,
         image: res?.data?.image
       })
@@ -187,7 +216,7 @@ const AdminProduct = () => {
     // form.resetFields()
   }
 
-  
+
 
   const handleOnchangeImageDetail = async ({fileList}) => {
     const file = fileList[0]
@@ -242,7 +271,7 @@ const AdminProduct = () => {
         queryProduct.refetch()
       }
     })
-    
+
   }
   //Filter, sort, search
   const [searchText, setSearchText] = useState('');
@@ -477,9 +506,27 @@ const AdminProduct = () => {
                 },
               ]}
             >
-              <Input value={stateProduct.type} onChange={handleOnChange} name="type" />
+              <Select
+                name="type"
+                onChange={handleOnChangeSelect}
+                options={renderOptions(queryTypeProduct?.data?.data)}
+                value={stateProduct.type}
+              />
             </Form.Item>
-
+            {stateProduct.type === 'add_type' && (
+              <Form.Item
+                label="New Type"
+                name="newType"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input type of product',
+                  },
+                ]}
+              >
+                <Input value={stateProduct.newType} onChange={handleOnChange} name="newType" />
+              </Form.Item>
+            )}
             <Form.Item
               label="In Stock"
               name="countInStock"
@@ -517,6 +564,19 @@ const AdminProduct = () => {
               ]}
             >
               <Input value={stateProduct.rating} onChange={handleOnChange} name="rating" />
+            </Form.Item>
+
+            <Form.Item
+              label="Discount"
+              name="discount"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input discount of product',
+                },
+              ]}
+            >
+              <Input value={stateProduct.discount} onChange={handleOnChange} name="discount" />
             </Form.Item>
 
             <Form.Item
@@ -638,6 +698,19 @@ const AdminProduct = () => {
               ]}
             >
               <Input value={stateProductDetail.rating} onChange={handleOnChangeDetail} name="rating" />
+            </Form.Item>
+
+            <Form.Item
+              label="Discount"
+              name="discount"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input discount of product',
+                },
+              ]}
+            >
+              <Input value={stateProductDetail.discount} onChange={handleOnChangeDetail} name="discount" />
             </Form.Item>
 
             <Form.Item
