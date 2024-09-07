@@ -38,3 +38,8 @@ export const deleteProduct = async(id, access_token) => {
     })
     return res.data
 }
+
+export const getAllTypeProduct = async() => {
+    const res = await axios.get(`http://localhost:3000/api/product/get-all-type`)
+    return res.data
+}
