@@ -17,6 +17,7 @@ import { increment, decrement } from '../../redux/counter/counterSlice';
 import { useQuery } from '@tanstack/react-query'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { addOrder } from '../../redux/order/orderSlice'
+import { convertPrice } from '../../utils'
 
 const ProductDetailsComponent = ({ idProduct }) => {
     const dispatch = useDispatch();
@@ -66,10 +67,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     <TextSell> | Đã bán {productDetails?.sold} +</TextSell>
                     <PriceProduct>
                         <PriceTextProduct>
-                            {(Number(productDetails?.price) * 1000).toLocaleString('vi-VN', {
-                                style: 'currency',
-                                currency: 'VND'
-                            })}
+                            {convertPrice(productDetails?.price)}
                         </PriceTextProduct>
                     </PriceProduct>
                     <AddressCustomer>
