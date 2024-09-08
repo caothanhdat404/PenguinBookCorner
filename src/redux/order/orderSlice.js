@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const orderSlice = createSlice({
   name: 'order',
+  selectedOrderItems: [],
   initialState: {
     orderItems: [],
     shippingAddress: {},
@@ -29,28 +30,45 @@ export const orderSlice = createSlice({
     increaseAmount: (state, action) => {
       const { idProduct } = action.payload
       const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+      const itemOrderSelected = state?.selectedOrderItems?.find((item) => item?.product === idProduct)
       itemOrder.amount++
+      itemOrderSelected.amount++
     },
     decreaseAmount: (state, action) => {
       const { idProduct } = action.payload
       const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+      const itemOrderSelected = state?.selectedOrderItems?.find((item) => item?.product === idProduct)
       itemOrder.amount--
+      itemOrderSelected.amount--
     },
     removeOrder: (state, action) => {
         const { idProduct } = action.payload
         const itemOrder = state?.orderItems?.find((item) => item?.product !== idProduct)
+        const itemOrderSelected = state?.selectedOrderItems?.find((item) => item?.product !== idProduct)
         state.orderItems = itemOrder
+        state.selectedOrderItems = itemOrderSelected
         
     },
     removeAllOrder: (state, action) => {
       const { listChecked } = action.payload
       const itemOrder = state?.orderItems?.find((item) => !listChecked.includes(item.product))
+      const itemOrderSelected = state?.orderItems?.find((item) => !listChecked.includes(item.product))
       state.orderItems = itemOrder
-      
-  }
+      state.selectedOrderItems = itemOrderSelected
+    },
+    selectedOrder: (state, action) => {
+      const {listChecked} = action.payload
+      const orderSelected = []
+      state.orderItems.forEach((order) => {
+        if (listChecked.includes(order.product)) {
+          orderSelected.push(order)
+        }
+      })
+      state.selectedOrderItems = orderSelected
+    }
   },
 })
 
-export const { addOrder, increaseAmount, decreaseAmount, removeOrder, removeAllOrder } = orderSlice.actions
+export const { addOrder, increaseAmount, decreaseAmount, removeOrder, removeAllOrder, selectedOrder } = orderSlice.actions
 
 export default orderSlice.reducer
