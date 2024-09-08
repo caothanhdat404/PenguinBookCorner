@@ -104,23 +104,23 @@ const ProductPage = () => {
     const { category } = useParams();
 
     const categoryNames = {
-        'van-hoc': 'Văn Học',
-        'khoa-hoc': 'Khoa Học',
-        'thieu-nhi': 'Thiếu Nhi',
-        'kinh-te': 'Kinh Tế',
-        'ky-nang': ' Kỹ Năng',
-        'truyen-tranh': 'Truyện Tranh',
-        'sach-giao-khoa': 'Sách Giáo Khoa & Sách Tham Khảo',
-        'van-phong-pham': 'Văn Phòng Phẩm'
+        'van-hoc': 'Văn học',
+        'khoa-hoc': 'Khoa học',
+        'thieu-nhi': 'Thiếu nhi',
+        'kinh-te': 'Kinh tế',
+        'ky-nang': ' Kỹ năng',
+        'truyen-tranh': 'Truyện tranh',
+        'sach-giao-khoa': 'Sách giáo khoa & Sách tham khảo',
+        'van-phong-pham': 'Văn phòng phẩm'
     };
 
     const categoryDisplay = categoryNames[category];
 
-    const fetchProductAll = async () => {
-        const res = await ProductService.getAllProduct()
+    const fetchProduct = async () => {
+        const res = await ProductService.getProductType(categoryDisplay)
         return res
     }
-    const { isLoading, data: products } = useQuery({queryKey: ['product'], queryFn: fetchProductAll})
+    const { isLoading, data: products } = useQuery({ queryKey: ['product'], queryFn: fetchProduct })
 
     return (
         <WrapperProductPage>
@@ -154,7 +154,7 @@ const ProductPage = () => {
                 </Col>
                 <Col span={20}>
                     <WrapperCategory>
-                        <h1>{categoryDisplay}</h1>
+                        <h1 style={{textTransform: 'capitalize'}}>{categoryDisplay}</h1>
                     </WrapperCategory>
                     <WrapperCardProduct>
                         {products?.data?.map((product) => {
@@ -168,6 +168,7 @@ const ProductPage = () => {
                                     rating={product.rating}
                                     discount={product.discount}
                                     sold={product.sold}
+                                    id={product._id}
                                 />
                             )
                         })}
