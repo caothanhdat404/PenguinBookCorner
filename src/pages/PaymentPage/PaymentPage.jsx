@@ -11,11 +11,25 @@ import { useMutationHook } from '../../hooks/useMutationHook'
 
 import * as UserService from '../../services/UserService'
 import * as OrderService from '../../services/OrderService'
+import { useNavigate } from 'react-router-dom'
+import { removeAllOrder } from '../../redux/order/orderSlice'
 
 const PaymentPage = () => {
   const order = useSelector((state) => state.order)
   const user = useSelector((state) => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [delivery, setDelivery] = useState('fast')
+  const [payment, setPayment] = useState('later')
+
+  const handleDelivery = (e) => {
+    setDelivery(e.target.value)
+  }
+
+  const handlePayment = (e) => {
+    setPayment(e.target.value)
+  }
 
   const [isOpenModalUpdateInfo, setIsOpenUpdateInfo] = useState(false)
   const [stateUserDetails, setStateUserDetails] = useState({
@@ -112,7 +126,20 @@ const PaymentPage = () => {
 
   useEffect(() => {
     if (isSuccess && data?.status === 'OK') {
+      const listOrdered = []
+      order?.selectedOrderItems?.forEach(element => {
+        listOrdered.push(element.product)
+      })
+      dispatch(removeAllOrder({ listChecked: arrayOrdered }))
       message.success('Đặt hàng thành công')
+      navigate('/order-success', {
+        state: {
+          delivery,
+          payment,
+          orders: order?.selectedOrderItems,
+          totalPrice: totalPriceMemo
+        }
+      })
     } else if (isError) {
       message.error()
     }
@@ -143,7 +170,7 @@ const PaymentPage = () => {
             <WrapperInfo>
               <div>
                 <Label>Chọn phương thức giao hàng</Label>
-                <WrapperRadio value={delivery}>
+                <WrapperRadio value={delivery} onChange={handleDelivery}>
                   <Radio value="fast"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>FAST</span> Giao hàng tiết kiệm</Radio>
                   <Radio value="gojek"><span style={{ color: '#ea8500', fontWeight: 'bold' }}>GO JEK</span> Giao hàng tiết kiệm</Radio>
                 </WrapperRadio>
@@ -152,7 +179,7 @@ const PaymentPage = () => {
             <WrapperInfo>
               <div>
                 <Label>Chọn phương thức thanh toán</Label>
-                <WrapperRadio value={payment}>
+                <WrapperRadio value={payment} onChange={handlePayment}>
                   <Radio value="later"> Thanh toán tiền mặt khi nhận hàng</Radio>
                 </WrapperRadio>
               </div>
