@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Checkbox, Form } from 'antd'
+import { Checkbox, Form, Input } from 'antd'
 import { WrapperDelivery, WrapperHeader, WrapperLeft, WrapperListOrder, WrapperItemOrder, WrapperPriceDiscount, WrapperCountOrder, WrapperRight, WrapperInfo, WrapperTotal } from './style'
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
-import image from '../../assets/images/fullproductImg.webp'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import ModalComponent from '../../components/ModalComponent/ModalComponent'
 import * as message from '../../components/Message/Message'
@@ -46,7 +45,7 @@ const OrderPage = () => {
     if (e.target.checked) {
       const newListChecked = []
       order?.orderItems?.forEach((item) => {
-        newListChecked.push(item.product)
+        newListChecked.push(item?.product)
       })
       setListChecked(newListChecked)
     } else {
@@ -74,7 +73,7 @@ const OrderPage = () => {
 
   const priceMemo = useMemo(() => {
     const result = order?.selectedOrderItems?.reduce((total, cur) => {
-      return total + ((cur.price * cur.amount))
+      return total + ((cur?.price * cur?.amount))
     }, 0)
     return result
   }, [order])
@@ -194,13 +193,13 @@ const OrderPage = () => {
   }, [priceMemo])
 
   return (
-    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh' }}>
+    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh', padding: '116px 64px 0' }}>
       <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>
         <h3>Giỏ hàng</h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <WrapperLeft>
             <WrapperDelivery>
-              <Step items={itemsDelivery} current={calculateCurrentPaymentRate}/>
+              <Step items={itemsDelivery} current={calculateCurrentPaymentRate} />
             </WrapperDelivery>
             <WrapperHeader>
               <span style={{ display: 'inline-block', width: '390px' }}>
@@ -231,7 +230,7 @@ const OrderPage = () => {
                         <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('decrease', order?.product)}>
                           <MinusOutlined style={{ color: '#000', fontSize: '10px' }} />
                         </button>
-                        <WrapperInputNumber value={order.amount} size='small' />
+                        <WrapperInputNumber value={order?.amount} size='small' />
                         <button style={{ border: 'none', background: 'transparent', cursor: 'pointer' }} onClick={() => handleChangeCount('increase', order?.product)}>
                           <PlusOutlined style={{ color: '#000', fontSize: '10px' }} />
                         </button>

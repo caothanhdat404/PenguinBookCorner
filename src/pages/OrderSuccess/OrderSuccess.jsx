@@ -11,7 +11,7 @@ const OrderSuccess = () => {
   const { state } = location
 
   return (
-    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh' }}>
+    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh', padding: '116px 64px 0' }}>
       <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>
         <h3>Đơn hàng đã đặt thành công</h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>

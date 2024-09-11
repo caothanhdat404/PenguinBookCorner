@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Form, Radio } from 'antd'
+import { Form, Radio, Input } from 'antd'
 import { WrapperLeft, WrapperRight, WrapperInfo, WrapperTotal, Label, WrapperRadio } from './style'
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import ModalComponent from '../../components/ModalComponent/ModalComponent'
@@ -128,9 +128,9 @@ const PaymentPage = () => {
     if (isSuccess && data?.status === 'OK') {
       const listOrdered = []
       order?.selectedOrderItems?.forEach(element => {
-        listOrdered.push(element.product)
+        listOrdered.push(element?.product)
       })
-      dispatch(removeAllOrder({ listChecked: arrayOrdered }))
+      dispatch(removeAllOrder({ listOrdered }))
       message.success('Đặt hàng thành công')
       navigate('/order-success', {
         state: {
@@ -162,7 +162,7 @@ const PaymentPage = () => {
   }
 
   return (
-    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh' }}>
+    <div style={{ background: "#f5f5fa", width: '100%', height: '100vh', padding: '116px 64px 0' }}>
       <div style={{ height: '100%', width: '1270px', margin: '0 auto' }}>
         <h3>Thanh toán</h3>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
