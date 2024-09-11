@@ -38,7 +38,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
         setUserName(user?.name)
         setUserAvatar(user?.avatar)
         setLoading(false)
-    })
+    }, [user])
 
     const handleSearch = (e) => {
         setSearch(e.target.value)
@@ -79,6 +79,7 @@ const HeaderComponent = ({ isHiddenSearch = false, isHiddenCart = false, isHidde
                                             {user?.isAdmin && (
                                                 <UserOption onClick={() => navigate('/system/admin')}>Quản lý hệ thống</UserOption>
                                             )}
+                                            <UserOption onClick={() => navigate('/my-order')}>Đơn hàng của tôi</UserOption>
                                             <UserOption onClick={handleLogout}>Đăng xuất</UserOption>
                                         </WrapperUserOption>
                                     }
