@@ -3,10 +3,9 @@ import styled from 'styled-components'
 export const WrapperProductPage = styled.div`
     padding: 116px 64px 0;
     background-color: #efefef;
-    height: 850px;
 `
 
-export const WrapperBreadcrumd = styled.div`
+export const WrapperBreadcrumb = styled.div`
     width: 100%;
     height: 53px;
     padding: 16px 0;
@@ -28,11 +27,13 @@ export const WrapperCategory = styled.div`
 export const WrapperCardProduct = styled.div`
     width: 100%;
     display: flex; 
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
     gap: 10px; 
     background-color: #fff; 
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 15px;
     border-radius: 4px; 
     box-sizing: border-box;
 `
