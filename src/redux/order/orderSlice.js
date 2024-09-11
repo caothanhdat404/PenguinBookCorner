@@ -20,7 +20,7 @@ export const orderSlice = createSlice({
   reducers: {
     addOrder: (state, action) => {
         const { orderItem } = action.payload
-        const itemOrder = state?.orderItems?.find((item) => item?.product === orderItem.product)
+        const itemOrder = state?.orderItems?.find((item) => item?.product === orderItem?.product)
         if (itemOrder) {
             itemOrder.amount += orderItem?.amount
         } else {
@@ -51,8 +51,8 @@ export const orderSlice = createSlice({
     },
     removeAllOrder: (state, action) => {
       const { listChecked } = action.payload
-      const itemOrder = state?.orderItems?.find((item) => !listChecked.includes(item.product))
-      const itemOrderSelected = state?.orderItems?.find((item) => !listChecked.includes(item.product))
+      const itemOrder = state?.orderItems?.find((item) => !listChecked.includes(item?.product))
+      const itemOrderSelected = state?.orderItems?.find((item) => !listChecked.includes(item?.product))
       state.orderItems = itemOrder
       state.selectedOrderItems = itemOrderSelected
     },
@@ -60,7 +60,7 @@ export const orderSlice = createSlice({
       const {listChecked} = action.payload
       const orderSelected = []
       state.orderItems.forEach((order) => {
-        if (listChecked.includes(order.product)) {
+        if (listChecked.includes(order?.product)) {
           orderSelected.push(order)
         }
       })
