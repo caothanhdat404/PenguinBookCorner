@@ -109,7 +109,7 @@ const HomePage = () => {
         const res = await ProductService.getAllProduct(search, limit)
         return res
     }
-    const { isPending, data: products, isPreviousData } = useQuery({ queryKey: ['product', limit, searchDebounce], queryFn: fetchProductAll, retry: 3, retryDelay: 1000, keepPreviousData: true })
+    const { isPending, data: products } = useQuery({ queryKey: ['product', limit, searchDebounce], queryFn: fetchProductAll, retry: 3, retryDelay: 1000, keepPreviousData: true })
 
 
 
