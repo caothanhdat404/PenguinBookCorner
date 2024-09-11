@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Breadcrumb } from 'antd'
 import { HomeOutlined } from '@ant-design/icons';
 import CardComponent from '../../components/CardComponent/CardComponent'
 import NavbarComponent from "../../components/NavbarComponent/NavbarComponent"
-import { WrapperProductPage, WrapperBreadcrumd, WrapperCategory, WrapperCardProduct, WrapperFooter, WrapperNavbar, WrapperSubNavbar } from './style'
+import Loading from "../../components/LoadingComponent/Loading"
+import { WrapperProductPage, WrapperBreadcrumb, WrapperCategory, WrapperCardProduct, WrapperFooter, WrapperNavbar, WrapperSubNavbar } from './style'
 
 import { ReactComponent as Literature } from '../../assets/svg/literature.svg'
 import { ReactComponent as Science } from '../../assets/svg/science.svg'
@@ -90,7 +91,7 @@ const NavbarSubItems = [
 
 const SpanFooter = [5, 5, 7, 7]
 
-function itemRender(currentRoute, items, paths) {
+function itemRender(currentRoute, params, items, paths) {
     const isLast = currentRoute?.path === items[items.length - 1]?.path;
 
     return isLast ? (
@@ -116,69 +117,76 @@ const ProductPage = () => {
 
     const categoryDisplay = categoryNames[category];
 
+    useEffect(() => {
+        fetchProduct()
+    })
+
     const fetchProduct = async () => {
         const res = await ProductService.getProductType(categoryDisplay)
         return res
     }
-    const { isLoading, data: products } = useQuery({ queryKey: ['product'], queryFn: fetchProduct })
+
+    const { isPending, data: products } = useQuery({ queryKey: ['product'], queryFn: fetchProduct })
 
     return (
-        <WrapperProductPage>
-            <WrapperBreadcrumd>
-                <Breadcrumb
-                    separator=">"
-                    itemRender={itemRender}
-                    items={[
-                        {
-                            path: '/',
-                            title: <HomeOutlined />,
-                        },
-                        {
-                            title: categoryDisplay,
-                        },
-                    ]}
-                />
-            </WrapperBreadcrumd>
-            <Row>
-                <Col span={4}>
-                    <div style={{ position: 'sticky', left: 0, top: '116px' }}>
-                        <WrapperNavbar>
-                            <div>Danh mục</div>
-                            <NavbarComponent items={NavbarItems} isNavigate />
-                        </WrapperNavbar>
-                        <WrapperSubNavbar>
-                            <div>Tiện ích</div>
-                            <NavbarComponent items={NavbarSubItems} isNavigate />
-                        </WrapperSubNavbar>
-                    </div>
-                </Col>
-                <Col span={20}>
-                    <WrapperCategory>
-                        <h1 style={{textTransform: 'capitalize'}}>{categoryDisplay}</h1>
-                    </WrapperCategory>
-                    <WrapperCardProduct>
-                        {products?.data?.map((product) => {
-                            return (
-                                <CardComponent
-                                    key={product._id}
-                                    countInStock={product.countInStock}
-                                    image={product.image}
-                                    name={product.name}
-                                    price={product.price}
-                                    rating={product.rating}
-                                    discount={product.discount}
-                                    sold={product.sold}
-                                    id={product._id}
-                                />
-                            )
-                        })}
-                    </WrapperCardProduct>
-                    <WrapperFooter>
-                        <FooterComponent span={SpanFooter} />
-                    </WrapperFooter>
-                </Col>
-            </Row>
-        </WrapperProductPage>
+        <Loading isLoading={isPending}>
+            <WrapperProductPage>
+                <WrapperBreadcrumb>
+                    <Breadcrumb
+                        separator=">"
+                        itemRender={itemRender}
+                        items={[
+                            {
+                                path: '/',
+                                title: <HomeOutlined />,
+                            },
+                            {
+                                title: categoryDisplay,
+                            },
+                        ]}
+                    />
+                </WrapperBreadcrumb>
+                <Row>
+                    <Col span={4}>
+                        <div style={{ position: 'sticky', left: 0, top: '116px' }}>
+                            <WrapperNavbar>
+                                <div>Danh mục</div>
+                                <NavbarComponent items={NavbarItems} isNavigate />
+                            </WrapperNavbar>
+                            <WrapperSubNavbar>
+                                <div>Tiện ích</div>
+                                <NavbarComponent items={NavbarSubItems} isNavigate />
+                            </WrapperSubNavbar>
+                        </div>
+                    </Col>
+                    <Col span={20}>
+                        <WrapperCategory>
+                            <h1 style={{ textTransform: 'capitalize' }}>{categoryDisplay}</h1>
+                        </WrapperCategory>
+                        <WrapperCardProduct>
+                            {products?.data?.map((product) => {
+                                return (
+                                    <CardComponent
+                                        key={product._id}
+                                        countInStock={product.countInStock}
+                                        image={product.image}
+                                        name={product.name}
+                                        price={product.price}
+                                        rating={product.rating}
+                                        discount={product.discount}
+                                        sold={product.sold}
+                                        id={product._id}
+                                    />
+                                )
+                            })}
+                        </WrapperCardProduct>
+                        <WrapperFooter>
+                            <FooterComponent span={SpanFooter} />
+                        </WrapperFooter>
+                    </Col>
+                </Row>
+            </WrapperProductPage>
+        </Loading>
     );
 }
 

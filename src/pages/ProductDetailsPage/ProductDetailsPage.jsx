@@ -4,7 +4,7 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
 import { HomeOutlined } from '@ant-design/icons';
 
-import { WrapperBreadcrumd } from '../ProductPage/style'
+import { WrapperBreadcrumb } from '../ProductPage/style'
 
 const ProductDetailsPage = () => {
   const { id } = useParams()
@@ -22,7 +22,7 @@ const ProductDetailsPage = () => {
   }
   return (
     <div style={{ padding: '116px 120px 10px', backgroundColor: '#efefef', height: '650px' }}>
-      <WrapperBreadcrumd>
+      <WrapperBreadcrumb>
         <Breadcrumb
           separator=">"
           itemRender={itemRender}
@@ -39,7 +39,7 @@ const ProductDetailsPage = () => {
             }
           ]}
         />
-      </WrapperBreadcrumd>
+      </WrapperBreadcrumb>
 
       <ProductDetailsComponent idProduct={id} />
     </div>
