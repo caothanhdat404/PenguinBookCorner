@@ -466,7 +466,7 @@ const AdminProduct = () => {
         }} />
       </div>
 
-      <ModalComponent title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} onOk={onFinish}>
+      <ModalComponent forceRender title="Tạo sản phẩm" open={isModalOpen} onCancel={handleCancel} onOk={onFinish}>
         <Loading isLoading={isPending}>
           <Form
             name="basic"
@@ -757,7 +757,7 @@ const AdminProduct = () => {
         </Loading>
       </DrawerComponent>
 
-      <ModalComponent title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteProduct}>
+      <ModalComponent forceRender title="Xóa sản phẩm" open={isModalOpenDelete} onCancel={handleCancelDelete} onOk={handleDeleteProduct}>
         <Loading isLoading={isPendingDeleted}>
           <div>Xóa sản phẩm?</div>
         </Loading>
