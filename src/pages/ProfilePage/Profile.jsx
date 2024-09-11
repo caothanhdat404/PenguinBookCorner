@@ -28,7 +28,7 @@ const Profile = () => {
   const mutation = useMutationHook(
     (data) => {
       const { id, access_token, ...rests } = data
-      UserService.updateUser(id, rests, access_token)
+      UserService.updateUser(id, access_token, rests)
     }
   )
   const { isPending, isSuccess, isError } = mutation
