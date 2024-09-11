@@ -28,7 +28,7 @@ export const getDetailProduct = async(id) => {
     return res.data
 }
 
-export const updateProduct = async(id, data, access_token) => {
+export const updateProduct = async(id, access_token, data) => {
     const res = await axiosJWT.put(`http://localhost:3000/api/product/update/${id}`, data, {
         headers: {
             token: `Bearer ${access_token}`
