@@ -23,7 +23,7 @@ const AdminProduct = () => {
 
   // Lấy sản phẩm và render
   const getAllProduct = async () => {
-    const res = await ProductService.getAllProduct()
+    const res = await ProductService.getAllProduct('', 100)
     return res
   }
 
