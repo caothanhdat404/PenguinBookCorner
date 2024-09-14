@@ -20,6 +20,17 @@ const AdminProduct = () => {
   const [rowSelected, setRowSelected] = useState('')
 
   const { form } = Form.useForm()
+  const initial = () => ({
+    name: '',
+    type: '',
+    countInStock: '',
+    price: '',
+    rating: '',
+    discount: '',
+    description: '',
+    image: '',
+    newType: '',
+  })
 
   // Lấy sản phẩm và render
   const getAllProduct = async () => {
@@ -47,17 +58,7 @@ const AdminProduct = () => {
   // Tạo sản phẩm
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [stateProduct, setStateProduct] = useState({
-    name: '',
-    type: '',
-    countInStock: '',
-    price: '',
-    rating: '',
-    discount: '',
-    description: '',
-    image: '',
-    newType: '',
-  })
+  const [stateProduct, setStateProduct] = useState(initial())
 
   const mutation = useMutationHook(
     (data) => {
@@ -118,7 +119,7 @@ const AdminProduct = () => {
     })
   }
 
-  const handleOnchangeImage = async ({fileList}) => {
+  const handleOnchangeImage = async ({ fileList }) => {
     const file = fileList[0]
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
@@ -134,16 +135,7 @@ const AdminProduct = () => {
   const [isOpenDrawer, setIsOpenDrawer] = useState(false)
   const [isPendingUpdate, setIsPendingUpdate] = useState(false)
 
-  const [stateProductDetail, setStateProductDetail] = useState({
-    name: '',
-    type: '',
-    countInStock: '',
-    price: '',
-    rating: '',
-    discount: '',
-    description: '',
-    image: ''
-  })
+  const [stateProductDetail, setStateProductDetail] = useState(initial())
 
   const mutationUpdate = useMutationHook(
     (data) => {
@@ -180,15 +172,19 @@ const AdminProduct = () => {
   }
 
   // useEffect(() => {
+  // if(!isModalOpen) {
   //   form.setFieldsValue(stateProductDetail)
-  // }, [form, stateProductDetail])
+  // } else {
+  //  form.setFieldsValue(initial())
+  // }
+  // }, [form, stateProductDetail, isModalOpen])
 
   useEffect(() => {
-    if (rowSelected) {
+    if (rowSelected && isOpenDrawer) {
       setIsPendingUpdate(true)
       fetchDetailProduct(rowSelected)
     }
-  }, [rowSelected])
+  }, [rowSelected, isOpenDrawer])
 
   const handleDetailProduct = () => {
     setIsOpenDrawer(true)
@@ -218,7 +214,7 @@ const AdminProduct = () => {
 
 
 
-  const handleOnchangeImageDetail = async ({fileList}) => {
+  const handleOnchangeImageDetail = async ({ fileList }) => {
     const file = fileList[0]
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
@@ -250,11 +246,20 @@ const AdminProduct = () => {
     },
   )
 
+  const mutationDeleteMany = useMutationHook(
+    (data) => {
+      const { token, ...ids } = data
+      const res = ProductService.deleteManyProduct(ids, token)
+      return res
+    },
+  )
+
   const handleCancelDelete = () => {
     setIsModalOpenDelete(false)
   }
 
   const { data: dataDeleted, isPending: isPendingDeleted, isSuccess: isSuccessDeleted, isError: isErrorDeleted } = mutationDelete
+  const { data: dataDeletedMany, isPending: isPendingDeletedMany, isSuccess: isSuccessDeletedMany, isError: isErrorDeletedMany } = mutationDeleteMany
 
   useEffect(() => {
     if (isSuccessDeleted && dataDeleted?.status === "OK") {
@@ -265,13 +270,28 @@ const AdminProduct = () => {
     }
   }, [isSuccessDeleted, isErrorDeleted])
 
+  useEffect(() => {
+    if (isSuccessDeletedMany && dataDeletedMany?.status === "OK") {
+      message.success()
+    } else if (isErrorDeletedMany) {
+      message.error()
+    }
+  }, [isSuccessDeletedMany, isErrorDeletedMany])
+
   const handleDeleteProduct = () => {
     mutationDelete.mutate({ id: rowSelected, token: user?.access_token }, {
       onSettled: () => {
         queryProduct.refetch()
       }
     })
+  }
 
+  const handleDeleteManyProduct = (ids) => {
+    mutationDeleteMany.mutate({ ids: ids, token: user?.access_token }, {
+      onSettled: () => {
+        queryProduct.refetch()
+      }
+    })
   }
   //Filter, sort, search
   const [searchText, setSearchText] = useState('');
@@ -457,7 +477,7 @@ const AdminProduct = () => {
         <Button style={{ height: '150px', width: '150px', borderRadius: '4px', borderStyle: 'dashed' }} onClick={() => setIsModalOpen(true)}><PlusOutlined style={{ fontSize: '60px' }} /></Button>
       </div>
       <div>
-        <TableComponent columns={columns} data={dataTable} isLoading={isLoadingProducts} onRow={(record, rowIndex) => {
+        <TableComponent handleDeleteMany={handleDeleteManyProduct} columns={columns} data={dataTable} isLoading={isLoadingProducts} onRow={(record, rowIndex) => {
           return {
             onClick: event => {
               setRowSelected(record._id)
