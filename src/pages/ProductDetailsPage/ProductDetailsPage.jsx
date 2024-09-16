@@ -6,20 +6,21 @@ import { HomeOutlined } from '@ant-design/icons';
 
 import { WrapperBreadcrumb } from '../ProductPage/style'
 
+function itemRender(currentRoute, params, items, paths) {
+  const isLast = currentRoute?.path === items[items.length - 1]?.path;
+
+  return isLast ? (
+    <span>{currentRoute.title}</span>
+  ) : (
+    <Link to={`/${paths.join("/")}`}>{currentRoute.title}</Link>
+  );
+}
+
 const ProductDetailsPage = () => {
   const { id } = useParams()
   const location = useLocation();
   const data = location.state
 
-  const itemRender = (currentRoute, items, paths) => {
-    const isLast = currentRoute?.path === items[items.length - 1]?.path;
-
-    return isLast ? (
-      <span>{currentRoute.title}</span>
-    ) : (
-      <Link to={`/${paths.join("/")}`}>{currentRoute.title}</Link>
-    );
-  }
   return (
     <div style={{ padding: '116px 120px 10px', backgroundColor: '#efefef', height: '650px' }}>
       <WrapperBreadcrumb>
