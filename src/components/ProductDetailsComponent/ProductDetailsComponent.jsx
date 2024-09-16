@@ -33,14 +33,14 @@ const ProductDetailsComponent = ({ idProduct }) => {
         if (id) {
             const res = await ProductService.getDetailProduct(id)
             return res.data
-        } 
+        }
     }
 
     const { isPending, data: productDetails } = useQuery({ queryKey: ['product-details', idProduct], queryFn: fetchDetailProduct, enabled: !!idProduct })
 
 
     const handleOrderProduct = () => {
-        if(!user?.id) {
+        if (!user?.id) {
             navigate('/sign-in', { state: location?.pathname })
         } else {
             dispatch(addOrder({
@@ -49,12 +49,12 @@ const ProductDetailsComponent = ({ idProduct }) => {
                     amount: count,
                     image: productDetails?.image,
                     price: productDetails?.price,
-                    product: productDetails?.id
+                    product: productDetails?._id
                 }
             }))
         }
     }
-    
+
     return (
         <Row style={{ padding: '16px', backgroundColor: 'white', borderRadius: '4px', height: '80%' }} >
             <Col span={10} style={{ borderRight: '1px solid #e5e5e5', paddingRight: '8px' }}>
@@ -63,7 +63,7 @@ const ProductDetailsComponent = ({ idProduct }) => {
             <Col span={14} style={{ paddingLeft: '10px' }}>
                 <WrapperNameProduct>{productDetails?.name}</WrapperNameProduct>
                 <div>
-                    <Rate allowHalf disabled value={productDetails?.rating}/>
+                    <Rate allowHalf disabled value={productDetails?.rating} />
                     <TextSell> | Đã bán {productDetails?.sold} +</TextSell>
                     <PriceProduct>
                         <PriceTextProduct>
