@@ -19,12 +19,13 @@ export const orderSlice = createSlice({
   },
   reducers: {
     addOrder: (state, action) => {
-        const { orderItem } = action.payload
-        const itemOrder = state?.orderItems?.find((item) => item?.product === orderItem?.product)
+        const { orderItems } = action.payload
+        console.log('orderItem', orderItems)
+        const itemOrder = state?.orderItems?.find((item) => item?.product === orderItems?.product)
         if (itemOrder) {
-            itemOrder.amount += orderItem?.amount
+            itemOrder.amount += orderItems?.amount
         } else {
-            state.orderItems.push(orderItem)
+            state?.orderItems.push(orderItems)
         }
     },
     increaseAmount: (state, action) => {
