@@ -1,14 +1,16 @@
-import HomePage from "../pages/HomePage/HomePage";
-import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
-import SignUpPage from "../pages/SignUpPage/SignUpPage";
-import SignInPage from "../pages/SignInPage/SignInPage";
-import ProductDetailsPage from "../pages/ProductDetailsPage/ProductDetailsPage";
-import ProductPage from '../pages/ProductPage/ProductPage';
-import ProfilePage from '../pages/ProfilePage/Profile'
-import OrderPage from '../pages/OrderPage/OrderPage'
-import AdminPage from "../pages/AdminPage/AdminPage";
-import PaymentPage from "../pages/PaymentPage/PaymentPage";
-import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
+import React, { lazy } from 'react';
+
+const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage/NotFoundPage"));
+const SignUpPage = lazy(() => import("../pages/SignUpPage/SignUpPage"));
+const SignInPage = lazy(() => import("../pages/SignInPage/SignInPage"));
+const ProductDetailsPage = lazy(() => import("../pages/ProductDetailsPage/ProductDetailsPage"));
+const ProductPage = lazy(() => import('../pages/ProductPage/ProductPage'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage/Profile'));
+const OrderPage = lazy(() => import('../pages/OrderPage/OrderPage'));
+const AdminPage = lazy(() => import("../pages/AdminPage/AdminPage"));
+const PaymentPage = lazy(() => import("../pages/PaymentPage/PaymentPage"));
+const OrderSuccess = lazy(() => import("../pages/OrderSuccess/OrderSuccess"));
 
 export const routes = [
     {
@@ -67,4 +69,4 @@ export const routes = [
         page: NotFoundPage,
         isShowHeader: false
     },
-]
+];
