@@ -1,38 +1,38 @@
 import React from 'react'
 import { CheckCircleFilled, TransactionOutlined, RedoOutlined, TruckFilled, TagFilled } from '@ant-design/icons'
-import { WrapperUndertakeHeader, WrapperUndertake, WrapperTag, Tag } from './style'
+
 const UndertakeComponent = () => {
-  return (
-    <div>
-        <WrapperUndertakeHeader>
-            <WrapperUndertake>
-                <div style={{color: 'rgb(26, 148, 255)', fontSize: '14px'}}>Cam kết</div>
-                <WrapperTag>
-                    <Tag>
-                        <CheckCircleFilled style={{color: 'rgb(26, 148, 255)', paddingRight: '2px'}} />
-                        <div>100% Hàng thật</div>
-                    </Tag>
-                    <Tag>
-                        <TransactionOutlined style={{color: 'rgb(26, 148, 255)', paddingRight: '2px'}}/> 
-                        <div>Hoàn trả 200% nếu hàng giả</div>
-                    </Tag>
-                    <Tag>
-                        <RedoOutlined style={{color: 'rgb(26, 148, 255)', paddingRight: '2px'}}/>
-                        <div>30 ngày đổi trả</div>
-                    </Tag>
-                    <Tag>
-                        <TruckFilled style={{color: 'rgb(26, 148, 255)', paddingRight: '2px'}}/>
-                        <div>Giao nhanh 2h</div>
-                    </Tag>
-                    <Tag>
-                        <TagFilled style={{color: 'rgb(26, 148, 255)', paddingRight: '2px'}}/>
-                        <div>Giá siêu rẻ</div>
-                    </Tag>
-                </WrapperTag>
-            </WrapperUndertake>
-        </WrapperUndertakeHeader>
-    </div>
-  )
+    return (
+        <div>
+            <div className="py-3 border-b border-gray-300 bg-white hover:cursor-pointer">
+                <div className="flex items-center px-6">
+                    <div className="text-blue-600 text-sm">Cam kết</div>
+                    <div className="flex gap-3 pl-2 text-xs items-center">
+                        <div className="flex items-center">
+                            <CheckCircleFilled className="text-blue-600 pr-1" />
+                            <div>100% Hàng thật</div>
+                        </div>
+                        <div className="flex items-center">
+                            <TransactionOutlined className="text-blue-600 pr-1" />
+                            <div>Hoàn trả 200% nếu hàng giả</div>
+                        </div>
+                        <div className="flex items-center">
+                            <RedoOutlined className="text-blue-600 pr-1" />
+                            <div>30 ngày đổi trả</div>
+                        </div>
+                        <div className="flex items-center">
+                            <TruckFilled className="text-blue-600 pr-1" />
+                            <div>Giao nhanh 2h</div>
+                        </div>
+                        <div className="flex items-center">
+                            <TagFilled className="text-blue-600 pr-1" />
+                            <div>Giá siêu rẻ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default UndertakeComponent
